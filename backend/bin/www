@@ -1,0 +1,9 @@
+const app = require('../app');
+const port = 8080;
+
+
+const onListening = () => {
+    console.log(`listen 127.0.0.1:${port}`);
+}
+
+app.listen(port);
