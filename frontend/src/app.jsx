@@ -1,8 +1,8 @@
 import React from 'react';
-import './app.css';
+import styles from './app.module.css';
 
 function App() {
-  return <h1>peach Market</h1>;
+  return <button className={styles.btn}>회원가입</button>;
 }
 
 export default App;
