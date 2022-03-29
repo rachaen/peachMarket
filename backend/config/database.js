@@ -1,5 +1,5 @@
-const config = require('./config.js');
-const mysql = require('mysql2');
+const config = require("./config.js");
+const mysql = require("mysql2");
 
 const pool = mysql.createPool({
   host: config.db.host,
