@@ -1,8 +1,11 @@
 const authRepository = require("./authRepository");
+const { v4 } = require("uuid");
 
 const authService = {
   signup: async (req, res) => {
-    authRepository.signup(1);
+    const userId = v4();
+    console.log(userId);
+    const { user } = req.body;
   },
 };
 
