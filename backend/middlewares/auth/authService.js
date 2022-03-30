@@ -32,9 +32,9 @@ const authService = {
       longitude,
     });
     if (!signupResult) {
-      res.status(401).json({ message: '회원 가입에 실패했습니다' });
+      res.status(401).json({ result: false });
     }
-    res.status(200).json({ message: '회원 가입에 성공했습니다' });
+    res.status(200).json({ result: true });
   },
 
   /**
@@ -43,9 +43,9 @@ const authService = {
   nickNameDuplicateCheck: async (req, res) => {
     const findByNickName = await authRepository.findByNickName(req.query.nickName);
     if (findByNickName) {
-      res.status(200).json({ message: '중복된 닉네임 입니다' });
+      res.status(200).json({ result: false });
     }
-    res.status(200).json({ message: '사용 가능한 닉네임 입니다' });
+    res.status(200).json({ result: true });
   },
 
   /**
@@ -54,9 +54,9 @@ const authService = {
   emailDuplicateCheck: async (req, res) => {
     const findByEmail = await authRepository.findByEmail(req.query.email);
     if (findByEmail) {
-      res.status(200).json({ message: '중복된 이메일 입니다' });
+      res.status(200).json({ result: false });
     }
-    res.status(200).json({ message: '사용 가능한 이메일 입니다' });
+    res.status(200).json({ result: true });
   },
 
   /**
@@ -65,9 +65,9 @@ const authService = {
   phoneNumberDuplicateCheck: async (req, res) => {
     const findByPhoneNumber = await authRepository.findPhoneNumber(req.query.phoneNumber);
     if (findByPhoneNumber) {
-      res.status(200).json({ message: '중복된 휴대폰번호 입니다' });
+      res.status(200).json({ result: false });
     }
-    res.status(200).json({ message: '사용 가능한 휴대폰번호 입니다' });
+    res.status(200).json({ message: true });
   },
 };
 
