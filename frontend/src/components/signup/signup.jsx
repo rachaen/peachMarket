@@ -155,7 +155,7 @@ const Signup = (props) => {
       return;
     }
     axios
-      .get(`http://127.0.0.1:8080/auth/phoneNumberDuplicateCheck?nickName=${userRegistration.nickName}`)
+      .get(`http://127.0.0.1:8080/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`)
       .then((result) => {
         if (result.status === 200) {
           if (result.data.result) {
@@ -182,7 +182,7 @@ const Signup = (props) => {
       return;
     }
     axios
-      .get(`http://127.0.0.1:8080/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`)
+      .get(`http://127.0.0.1:8080/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.nickName}`)
       .then((result) => {
         if (result.status === 200) {
           if (result.data.result) {
@@ -190,6 +190,7 @@ const Signup = (props) => {
               ...error,
               phoneNumberDuplicate: true,
             });
+            // 여기서 인증메세지를 보내기?!
           } else {
             setError({
               ...error,
@@ -244,7 +245,7 @@ const Signup = (props) => {
           value={password2}
           onChange={handlePassword2}
         />
-        <span>{password2 && (error.password2 ? '비밀번호를 다시 확인해주세요' : 'ok')}</span>
+        <span>{password2 && (error.password2 ? '👍' : '비밀번호를 다시 확인해주세요')}</span>
       </div>
       <div>
         <label>휴대폰 번호</label>
@@ -265,7 +266,7 @@ const Signup = (props) => {
           name="nickName"
           type="text"
           placeholder="닉네임"
-          maxlength="5"
+          maxLength="5"
           value={userRegistration.nickName}
           onChange={handleInput}
         />
