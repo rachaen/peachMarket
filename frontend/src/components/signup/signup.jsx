@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-
+/*global kakao*/
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import KakaoAddress from "./kakaoAddress";
 const Signup = (props) => {
   const [userRegistration, setUserRegistration] = useState({
-    userName: '',
-    nickName: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    address: '',
-    birthday: '',
-    latitude: '',
-    longitude: '',
+    userName: "",
+    nickName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    address: "",
+    birthday: "",
+    latitude: "",
+    longitude: "",
   });
 
   const [error, setError] = useState({
@@ -22,7 +24,10 @@ const Signup = (props) => {
     phoneVerification: false, // 휴대폰 인증
   });
 
-  const [password2, setPassword2] = useState('');
+  const [popup, setPopup] = useState(false);
+  const [address, setAddress] = useState("");
+
+  const [password2, setPassword2] = useState("");
 
   const handleInput = (event) => {
     const {
@@ -68,7 +73,13 @@ const Signup = (props) => {
 
   const nickNameCheck = (event) => {};
 
-  const emailCheck = (event) => {};
+  const emailCheck = (event) => {
+    console.log("hi");
+    event.preventDefault();
+    axios.get(`http://localhost:8080/auth/emailDuplicateCheck?email=ljm170@naver.com`).then((result) => {
+      console.log(result);
+    });
+  };
 
   const phoneNumberCheck = (event) => {};
 
@@ -83,19 +94,19 @@ const Signup = (props) => {
         <label>이메일</label>
         <input name="email" type="text" placeholder="이메일" required value={userRegistration.email} onChange={handleInput} />
         <button onClick={emailCheck}>중복확인</button>
-        <span>{userRegistration.email && (error.email ? '유효성 불통' : '유효성 통')}</span>
+        <span>{userRegistration.email && (error.email ? "유효성 불통" : "유효성 통")}</span>
       </div>
       <div>
         <label>비밀번호</label>
         <input name="password" type="password" placeholder="비밀번호" required value={userRegistration.password} onChange={handleInput} />
-        <span>{userRegistration.password && (error.password ? '유효성 불통' : '유효성 통')}</span>
+        <span>{userRegistration.password && (error.password ? "유효성 불통" : "유효성 통")}</span>
       </div>
       <div>
         <label>비밀번호 확인</label>
         <input name="password2" type="password" placeholder="비밀번호" required value={password2} onChange={handlePassword2} />
         {/* <span>{passwordMessage()}</span> */}
         {/* {message.password2 && <span>{message.password2}</span>} */}
-        <span>{password2 && (error.password2 ? '안돼' : '됨')}</span>
+        <span>{password2 && (error.password2 ? "안돼" : "됨")}</span>
       </div>
       <div>
         <label>휴대폰 번호</label>
@@ -111,6 +122,15 @@ const Signup = (props) => {
         <label>주소</label>
         <input name="address" type="text" placeholder="주소" value={userRegistration.address} onChange={handleInput} />
       </div>
+      <button
+        onClick={() => {
+          setPopup(!popup);
+        }}
+      >
+        주소검색
+        {popup && <KakaoAddress address={address} setAddress={setAddress} setPopup={setPopup}></KakaoAddress>}
+        {console.log(address)}
+      </button>
       <button type="submit" onClick={handleSubmit}>
         회원가입
       </button>
