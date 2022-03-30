@@ -1,11 +1,12 @@
 import React from "react";
 import Login from "./components/login/login";
+import Signup from "./components/signup/signup";
 
 function App() {
   return (
     <>
-      <h1>peach Market</h1>
-      <Login></Login>
+      {/* <Login></Login> */}
+      <Signup></Signup>
     </>
   );
 }
