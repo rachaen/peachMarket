@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
+/*global kakao*/
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import KakaoAddress from "./kakaoAddress";
 const Signup = (props) => {
   const [userRegistration, setUserRegistration] = useState({
-    userName: '',
-    nickName: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    address: '',
-    birthday: '',
-    latitude: '',
-    longitude: '',
+    userName: "",
+    nickName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    address: "",
+    birthday: "",
+    latitude: "",
+    longitude: "",
   });
 
   // 0: 빈칸, 1: 통과
@@ -27,6 +28,7 @@ const Signup = (props) => {
     phoneNumberVerification: false, // 휴대폰 인증
   });
 
+<<<<<<< HEAD
   const [message, setMessage] = useState({
     email: '',
     nickName: '',
@@ -37,6 +39,12 @@ const Signup = (props) => {
 
   const [password2, setPassword2] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+=======
+  const [popup, setPopup] = useState(false);
+  const [address, setAddress] = useState("");
+
+  const [password2, setPassword2] = useState("");
+>>>>>>> 22fad62dcb2fc0fe55239be73ed77d549083d77f
 
   const handleInput = (event) => {
     const {
@@ -394,6 +402,16 @@ const Signup = (props) => {
         <label>주소</label>
         <input name="address" type="text" placeholder="주소" value={userRegistration.address} onChange={handleInput} />
       </div>
+      <button
+        onClick={(event) => {
+          event.preventDefault();
+          setPopup(!popup);
+        }}
+      >
+        주소검색
+        {popup && <KakaoAddress address={address} setAddress={setAddress} setPopup={setPopup}></KakaoAddress>}
+        {console.log(address)}
+      </button>
       <button type="submit" onClick={handleSubmit}>
         회원가입
       </button>

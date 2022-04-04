@@ -1,4 +1,5 @@
 import React from "react";
+import Kakaomap from "./components/login/kakaomap";
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
 
@@ -7,6 +8,7 @@ function App() {
     <>
       {/* <Login></Login> */}
       <Signup></Signup>
+      <Kakaomap></Kakaomap>
     </>
   );
 }
