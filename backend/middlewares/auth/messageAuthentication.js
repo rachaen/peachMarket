@@ -67,7 +67,6 @@ const messageAuthentication = {
   confirmSms: (req, res) => {
     const { phoneNumber, verificationCode } = req.body;
     const CacheData = Cache.get(phoneNumber);
-    console.log(CacheData);
     if (!CacheData) {
       return res.status(200).json({ result: false });
     } else if (CacheData != verificationCode) {

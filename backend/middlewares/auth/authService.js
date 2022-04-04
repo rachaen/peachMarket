@@ -68,6 +68,7 @@ const authService = {
       res.status(200).json({ result: false });
     }
     res.status(200).json({ result: true });
+<<<<<<< HEAD
   },
 
   /**
@@ -78,6 +79,8 @@ const authService = {
     if (!findUser) {
       res.status(401).josn({ result: false });
     }
+=======
+>>>>>>> origin/main
   },
 };
 
