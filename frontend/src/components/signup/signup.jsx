@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import KakaoAddress from './kakaoAddress';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
+
 const Signup = (props) => {
   const [userRegistration, setUserRegistration] = useState({
     userName: '',
@@ -67,7 +70,7 @@ const Signup = (props) => {
       ...error,
       email: true,
     }));
-    axios.get(`http://127.0.0.1:8080/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
+    axios.get(`${baseURL}/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
       if (result.status === 200) {
         if (result.data.result) {
           setError({
@@ -110,7 +113,7 @@ const Signup = (props) => {
       }));
 
       axios
-        .get(`http://127.0.0.1:8080/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`)
+        .get(`${baseURL}/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`)
         .then((result) => {
           if (result.status === 200) {
             if (result.data.result) {
@@ -120,7 +123,7 @@ const Signup = (props) => {
               });
               setMessage({ ...message, phoneNumber: '인증 코드를 확인해주세요' });
               axios
-                .post(`http://127.0.0.1:8080/auth/getVerificationCode`, {
+                .post(`${baseURL}/auth/getVerificationCode`, {
                   phoneNumber: userRegistration.phoneNumber,
                 })
                 .catch(error);
@@ -171,7 +174,7 @@ const Signup = (props) => {
         email: true,
       }));
       if (error.email) {
-        axios.get(`http://127.0.0.1:8080/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
+        axios.get(`${baseURL}/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
           if (result.status === 200) {
             if (result.data.result) {
               setError({
@@ -276,34 +279,32 @@ const Signup = (props) => {
         nickName: true,
       }));
 
-      axios
-        .get(`http://127.0.0.1:8080/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`)
-        .then((result) => {
-          if (result.status === 200) {
-            if (result.data.result) {
-              setError({
-                ...error,
-                nickNameDuplicate: true,
-              });
-              setMessage((message) => ({ ...message, nickName: '사용가능한 닉네임입니다' }));
-            } else {
-              setError({
-                ...error,
-                nickNameDuplicate: false,
-              });
-              setMessage((message) => ({ ...message, nickName: '이미 사용중인 닉네임입니다' }));
-            }
+      axios.get(`${baseURL}/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`).then((result) => {
+        if (result.status === 200) {
+          if (result.data.result) {
+            setError({
+              ...error,
+              nickNameDuplicate: true,
+            });
+            setMessage((message) => ({ ...message, nickName: '사용가능한 닉네임입니다' }));
           } else {
-            console.log('뭔가 잘못되었당');
+            setError({
+              ...error,
+              nickNameDuplicate: false,
+            });
+            setMessage((message) => ({ ...message, nickName: '이미 사용중인 닉네임입니다' }));
           }
-        });
+        } else {
+          console.log('뭔가 잘못되었당');
+        }
+      });
     }
   };
 
   const verificationCodeBlur = () => {
     if (error.phoneNumberDuplicate) {
       axios
-        .post(`http://127.0.0.1:8080/auth/confirmVerificationCode`, {
+        .post(`${baseURL}/auth/confirmVerificationCode`, {
           phoneNumber: userRegistration.phoneNumber,
           verificationCode: verificationCode,
         })
@@ -406,7 +407,6 @@ const Signup = (props) => {
       >
         주소검색
         {popup && <KakaoAddress address={address} setAddress={setAddress} setPopup={setPopup}></KakaoAddress>}
-        {console.log(address)}
       </button>
       <button type="submit" onClick={handleSubmit}>
         회원가입
