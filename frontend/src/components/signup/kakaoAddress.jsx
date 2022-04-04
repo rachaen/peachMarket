@@ -12,6 +12,7 @@ const KakaoAddress = (props) => {
     setPopup(false);
     const key = process.env.REACT_APP_RESTAPI;
     const encoded = encodeURIComponent(data.address);
+    console.log(encoded);
     axios
       .get(`https://dapi.kakao.com/v2/local/search/address.json?query=${data.address}`, {
         headers: {

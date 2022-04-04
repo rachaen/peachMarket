@@ -59,24 +59,22 @@ const messageAuthentication = {
           messages: [{ to: `${phoneNumber}` }],
         },
       });
-      return res.status(200).json({ message: "인증 메시지를 보냈습니다." });
+      return res.status(200).json({ result: true });
     } catch (error) {
-      return res.status(404).json({ message: "sms 전송에 실패했습니다" });
+      return res.status(404).json({ result: false });
     }
   },
   confirmSms: (req, res) => {
-    const { phoneNumber, checkVerificationCode } = req.body;
-    console.log(phoneNumber);
-    console.log(checkVerificationCode);
+    const { phoneNumber, verificationCode } = req.body;
     const CacheData = Cache.get(phoneNumber);
     console.log(CacheData);
     if (!CacheData) {
-      return res.status(200).json({ message: "fail" });
-    } else if (CacheData != checkVerificationCode) {
-      return res.status(200).json({ message: "fail" });
+      return res.status(200).json({ result: false });
+    } else if (CacheData != verificationCode) {
+      return res.status(200).json({ result: false });
     } else {
       Cache.del(phoneNumber);
-      return res.status(200).json({ message: "success" });
+      return res.status(200).json({ result: true });
     }
   },
 };

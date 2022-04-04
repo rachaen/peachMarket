@@ -1,8 +1,8 @@
-const { v4 } = require('uuid');
-const bcrypt = require('bcrypt');
+const { v4 } = require("uuid");
+const bcrypt = require("bcrypt");
 
-const authRepository = require('./authRepository');
-const config = require('../../config/config.js');
+const authRepository = require("./authRepository");
+const config = require("../../config/config.js");
 
 const authService = {
   /**
@@ -16,7 +16,7 @@ const authService = {
     const findByEmail = await authRepository.findByEmail(email);
     const findPhoneNumber = await authRepository.findPhoneNumber(phoneNumber);
     if (findByEmail && findNickName && findPhoneNumber) {
-      res.status(409).json({ message: '회원 가입에 실패했습니다. 중복체크를 다시 확인해주세요' });
+      res.status(409).json({ message: "회원 가입에 실패했습니다. 중복체크를 다시 확인해주세요" });
     }
     const hashed = await bcrypt.hash(password, config.bcrypt.saltRounds);
     const signupResult = await authRepository.signup({
@@ -67,7 +67,17 @@ const authService = {
     if (findByPhoneNumber) {
       res.status(200).json({ result: false });
     }
-    res.status(200).json({ message: true });
+    res.status(200).json({ result: true });
+  },
+
+  /**
+   * 로그인
+   */
+  login: async (req, res) => {
+    const findUser = await authRepository.findByEmail(req.body.email);
+    if (!findUser) {
+      res.status(401).josn({ result: false });
+    }
   },
 };
 
