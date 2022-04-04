@@ -67,7 +67,7 @@ const authService = {
     if (findByPhoneNumber) {
       res.status(200).json({ result: false });
     }
-    res.status(200).json({ message: true });
+    res.status(200).json({ result: true });
   },
 };
 
