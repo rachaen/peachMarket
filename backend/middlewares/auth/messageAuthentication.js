@@ -1,8 +1,8 @@
-const config = require("../../config/config.js");
-const cryptojs = require("crypto-js");
-const axios = require("axios");
-const Cache = require("memory-cache");
-const authRepository = require("./authRepository.js");
+const config = require('../../config/config.js');
+const cryptojs = require('crypto-js');
+const axios = require('axios');
+const Cache = require('memory-cache');
+const authRepository = require('./authRepository.js');
 
 const messageAuthentication = {
   sendVerificationSMS: async (req, res) => {
@@ -11,7 +11,7 @@ const messageAuthentication = {
       const phoneNumber = req.body.phoneNumber;
       const user = await authRepository.findPhoneNumber(phoneNumber);
       if (user) {
-        return res.status(200).json({ message: "이미 가입한 휴대폰 번호입니다." });
+        return res.status(200).json({ message: '이미 가입한 휴대폰 번호입니다.' });
       }
       Cache.del(phoneNumber);
       const date = Date.now().toString();
@@ -25,9 +25,9 @@ const messageAuthentication = {
       const sens_secret_key = config.sens.secretKey;
       const sens_call_number = config.sens.callNumber;
       //URL 관련 함수 선언.
-      const method = "POST";
-      const space = " ";
-      const newLine = "\n";
+      const method = 'POST';
+      const space = ' ';
+      const newLine = '\n';
       const url = `https://sens.apigw.ntruss.com/sms/v2/services/${sens_service_id}/messages`;
       const url2 = `/sms/v2/services/${sens_service_id}/messages`;
       //암호화
@@ -46,14 +46,14 @@ const messageAuthentication = {
         method: method,
         url: url,
         headers: {
-          "Contenc-type": "application/json; charset=utf-8",
-          "x-ncp-iam-access-key": sens_access_key,
-          "x-ncp-apigw-timestamp": date,
-          "x-ncp-apigw-signature-v2": signature,
+          'Contenc-type': 'application/json; charset=utf-8',
+          'x-ncp-iam-access-key': sens_access_key,
+          'x-ncp-apigw-timestamp': date,
+          'x-ncp-apigw-signature-v2': signature,
         },
         data: {
-          type: "SMS",
-          countryCode: "82",
+          type: 'SMS',
+          countryCode: '82',
           from: sens_call_number,
           content: `인증번호는 [${verificationCode}] 입니다.`,
           messages: [{ to: `${phoneNumber}` }],
