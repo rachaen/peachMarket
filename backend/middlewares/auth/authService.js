@@ -1,5 +1,6 @@
 const { v4 } = require("uuid");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const authRepository = require("./authRepository");
 const config = require("../../config/config.js");
@@ -68,20 +69,38 @@ const authService = {
       res.status(200).json({ result: false });
     }
     res.status(200).json({ result: true });
-<<<<<<< HEAD
   },
 
   /**
    * 로그인
    */
   login: async (req, res) => {
+    const { email, password } = req.body;
     const findUser = await authRepository.findByEmail(req.body.email);
     if (!findUser) {
       res.status(401).josn({ result: false });
     }
-=======
->>>>>>> origin/main
+    const passwordCompareResult = await bcrypt.compare(password, findUser.password);
+    if (!passwordCompareResult) {
+      return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요" });
+    }
+
+    const token = createJwtToken(findUser.userId);
+    setToken(res, token);
+    res.status(200).json({ token });
   },
 };
+
+function setToken(res, token) {
+  const options = {
+    maxAge: config.jwt.expiresInSec * 1000,
+    httpOnly: true,
+  };
+  res.cookie("token", token, options);
+}
+
+function createJwtToken(userId) {
+  return jwt.sign({ userId }, config.jwt.secretKey, { expiresIn: config.jwt.expiresInSec });
+}
 
 module.exports = authService;

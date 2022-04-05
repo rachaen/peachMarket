@@ -1,18 +1,18 @@
 /*global kakao*/
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import KakaoAddress from './kakaoAddress';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import KakaoAddress from "./kakaoAddress";
 const Signup = (props) => {
   const [userRegistration, setUserRegistration] = useState({
-    userName: '',
-    nickName: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    address: '',
-    birthday: '',
-    latitude: '',
-    longitude: '',
+    userName: "",
+    nickName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    address: "",
+    birthday: "",
+    latitude: "",
+    longitude: "",
   });
 
   // true 통과
@@ -29,18 +29,18 @@ const Signup = (props) => {
   });
 
   const [popup, setPopup] = useState(false);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
 
   const [message, setMessage] = useState({
-    email: '',
-    nickName: '',
-    password: '',
-    password2: '',
-    phoneNumber: '',
+    email: "",
+    nickName: "",
+    password: "",
+    password2: "",
+    phoneNumber: "",
   });
 
-  const [password2, setPassword2] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
+  const [password2, setPassword2] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
 
   const handleInput = (event) => {
     const {
@@ -63,27 +63,34 @@ const Signup = (props) => {
   };
 
   const emailCheck = async () => {
-    setError((error) => ({
-      ...error,
-      email: true,
-    }));
+    setError((prevState) => {
+      return {
+        ...prevState,
+        email: true,
+      };
+    });
+
     axios.get(`http://127.0.0.1:8080/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
+      console.log(result);
       if (result.status === 200) {
         if (result.data.result) {
-          setError({
-            ...error,
-            emailDuplicate: true,
+          setError((prevState) => {
+            return {
+              ...prevState,
+              emailDuplicate: true,
+            };
           });
-          setMessage({ ...message, email: '사용가능한 이메일입니다' });
+
+          setMessage({ ...message, email: "사용가능한 이메일입니다" });
         } else {
           setError({
             ...error,
             emailDuplicate: false,
           });
-          setMessage({ ...message, email: '이미 가입된 회원입니다' });
+          setMessage({ ...message, email: "이미 가입된 회원입니다" });
         }
       } else {
-        console.log('뭔가 잘못되었당');
+        console.log("뭔가 잘못되었당");
       }
     });
   };
@@ -93,15 +100,12 @@ const Signup = (props) => {
     event.preventDefault();
 
     let phoneNumberExp = /^\d{10,11}$/;
-    if (
-      userRegistration.phoneNumber === '' ||
-      (userRegistration.phoneNumber && phoneNumberExp.test(userRegistration.phoneNumber) === false)
-    ) {
+    if (userRegistration.phoneNumber === "" || (userRegistration.phoneNumber && phoneNumberExp.test(userRegistration.phoneNumber) === false)) {
       setError((error) => ({
         ...error,
         phoneNumber: false,
       }));
-      setMessage({ ...message, phoneNumber: '휴대폰 형식을 맞춰주세요' });
+      setMessage({ ...message, phoneNumber: "휴대폰 형식을 맞춰주세요" });
       return;
     } else {
       setError((error) => ({
@@ -109,32 +113,30 @@ const Signup = (props) => {
         phoneNumber: true,
       }));
 
-      axios
-        .get(`http://127.0.0.1:8080/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`)
-        .then((result) => {
-          if (result.status === 200) {
-            if (result.data.result) {
-              setError({
-                ...error,
-                phoneNumberDuplicate: true,
-              });
-              setMessage({ ...message, phoneNumber: '인증 코드를 확인해주세요' });
-              axios
-                .post(`http://127.0.0.1:8080/auth/getVerificationCode`, {
-                  phoneNumber: userRegistration.phoneNumber,
-                })
-                .catch(error);
-            } else {
-              setError({
-                ...error,
-                phoneNumberDuplicate: false,
-              });
-              setMessage({ ...message, phoneNumber: '이미 가입된 번호입니다' });
-            }
+      axios.get(`http://127.0.0.1:8080/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`).then((result) => {
+        if (result.status === 200) {
+          if (result.data.result) {
+            setError({
+              ...error,
+              phoneNumberDuplicate: true,
+            });
+            setMessage({ ...message, phoneNumber: "인증 코드를 확인해주세요" });
+            axios
+              .post(`http://127.0.0.1:8080/auth/getVerificationCode`, {
+                phoneNumber: userRegistration.phoneNumber,
+              })
+              .catch(error);
           } else {
-            console.log('뭔가 잘못되었당');
+            setError({
+              ...error,
+              phoneNumberDuplicate: false,
+            });
+            setMessage({ ...message, phoneNumber: "이미 가입된 번호입니다" });
           }
-        });
+        } else {
+          console.log("뭔가 잘못되었당");
+        }
+      });
     }
   };
 
@@ -147,29 +149,42 @@ const Signup = (props) => {
   // Blur
 
   // 이메일 체크
-  const emailCheckBlur = async () => {
-    if (userRegistration.email === '') {
+  useEffect(() => {}, [error]);
+
+  const emailCheckBlur = () => {
+    console.log(userRegistration.email);
+    if (userRegistration.email === "") {
       setError((error) => ({
         ...error,
         email: false,
       }));
-      setMessage({ ...message, email: '이메일 작성을 해주세요' });
+      setMessage({ ...message, email: "이메일 작성을 해주세요" });
       return;
     }
 
     let emailExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (userRegistration.email && emailExp.test(userRegistration.email) === false) {
-      setError((error) => ({
-        ...error,
-        email: false,
-      }));
-      setMessage({ ...message, email: '이메일 형식을 맞춰주세요' });
-      return;
+      setError((prevState) => {
+        return {
+          ...prevState,
+          email: false,
+        };
+      });
+
+      setMessage((prevState) => {
+        return {
+          ...prevState,
+          email: "이메일 형식을 맞춰주세요",
+        };
+      });
     } else {
-      setError((error) => ({
-        ...error,
-        email: true,
-      }));
+      setError((prevState) => {
+        return {
+          ...prevState,
+          email: true,
+        };
+      });
+      console.log(error.email);
       if (error.email) {
         axios.get(`http://127.0.0.1:8080/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
           if (result.status === 200) {
@@ -178,16 +193,16 @@ const Signup = (props) => {
                 ...error,
                 emailDuplicate: true,
               });
-              setMessage({ ...message, email: '사용가능한 이메일입니다' });
+              setMessage({ ...message, email: "사용가능한 이메일입니다" });
             } else {
               setError({
                 ...error,
                 emailDuplicate: false,
               });
-              setMessage({ ...message, email: '이미 가입된 회원입니다' });
+              setMessage({ ...message, email: "이미 가입된 회원입니다" });
             }
           } else {
-            console.log('뭔가 잘못되었당');
+            console.log("뭔가 잘못되었당");
           }
         });
       }
@@ -197,12 +212,12 @@ const Signup = (props) => {
   // 비밀번호 체크
 
   const passwordCheckBlur = () => {
-    if (userRegistration.password === '') {
+    if (userRegistration.password === "") {
       setError((error) => ({
         ...error,
         password: false,
       }));
-      setMessage({ ...message, password: '비밀번호 작성을 해주세요' });
+      setMessage({ ...message, password: "비밀번호 작성을 해주세요" });
       return;
     }
 
@@ -213,26 +228,26 @@ const Signup = (props) => {
         ...error,
         password: false,
       }));
-      setMessage((message) => ({ ...message, password: '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요' }));
+      setMessage((message) => ({ ...message, password: "영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요" }));
       return;
     } else {
       setError((error) => ({
         ...error,
         password: true,
       }));
-      setMessage((message) => ({ ...message, password: '안전한 비밀번호입니다' }));
+      setMessage((message) => ({ ...message, password: "안전한 비밀번호입니다" }));
       return;
     }
   };
 
   //비밀번호 일치 체크
   const password2Blur = () => {
-    if (password2 === '') {
+    if (password2 === "") {
       setError((error) => ({
         ...error,
         password2: false,
       }));
-      setMessage({ ...message, password2: '비밀번호 작성을 해주세요' });
+      setMessage({ ...message, password2: "비밀번호 작성을 해주세요" });
       return;
     }
     if (userRegistration.password !== password2) {
@@ -240,24 +255,24 @@ const Signup = (props) => {
         ...error,
         password2: false,
       }));
-      setMessage((message) => ({ ...message, password2: '비밀번호를 다시 확인해주세요' }));
+      setMessage((message) => ({ ...message, password2: "비밀번호를 다시 확인해주세요" }));
     } else {
       setError((error) => ({
         ...error,
         password2: true,
       }));
-      setMessage((message) => ({ ...message, password2: '일치합니다' }));
+      setMessage((message) => ({ ...message, password2: "일치합니다" }));
     }
   };
 
   // 닉네임 체크
   const nickNameCheckBlur = () => {
-    if (userRegistration.nickName === '') {
+    if (userRegistration.nickName === "") {
       setError((error) => ({
         ...error,
         nickName: false,
       }));
-      setMessage({ ...message, nickName: '닉네임 작성을 해주세요' });
+      setMessage({ ...message, nickName: "닉네임 작성을 해주세요" });
       return;
     }
 
@@ -268,7 +283,7 @@ const Signup = (props) => {
         ...error,
         nickName: false,
       }));
-      setMessage((message) => ({ ...message, nickName: '2자리이상 7자리미만' }));
+      setMessage((message) => ({ ...message, nickName: "2자리이상 7자리미만" }));
       return;
     } else {
       setError((error) => ({
@@ -276,27 +291,25 @@ const Signup = (props) => {
         nickName: true,
       }));
 
-      axios
-        .get(`http://127.0.0.1:8080/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`)
-        .then((result) => {
-          if (result.status === 200) {
-            if (result.data.result) {
-              setError({
-                ...error,
-                nickNameDuplicate: true,
-              });
-              setMessage((message) => ({ ...message, nickName: '사용가능한 닉네임입니다' }));
-            } else {
-              setError({
-                ...error,
-                nickNameDuplicate: false,
-              });
-              setMessage((message) => ({ ...message, nickName: '이미 사용중인 닉네임입니다' }));
-            }
+      axios.get(`http://127.0.0.1:8080/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`).then((result) => {
+        if (result.status === 200) {
+          if (result.data.result) {
+            setError({
+              ...error,
+              nickNameDuplicate: true,
+            });
+            setMessage((message) => ({ ...message, nickName: "사용가능한 닉네임입니다" }));
           } else {
-            console.log('뭔가 잘못되었당');
+            setError({
+              ...error,
+              nickNameDuplicate: false,
+            });
+            setMessage((message) => ({ ...message, nickName: "이미 사용중인 닉네임입니다" }));
           }
-        });
+        } else {
+          console.log("뭔가 잘못되었당");
+        }
+      });
     }
   };
 
@@ -310,10 +323,10 @@ const Signup = (props) => {
         .then((result) => {
           if (result.data.result) {
             setError((error) => ({ ...error, phoneNumberVerification: true }));
-            setMessage((message) => ({ ...message, phoneNumber: '인증 되었습니다' }));
+            setMessage((message) => ({ ...message, phoneNumber: "인증 되었습니다" }));
           } else {
             setError((error) => ({ ...error, phoneNumberVerification: false }));
-            setMessage((message) => ({ ...message, phoneNumber: '다시 확인해주세요' }));
+            setMessage((message) => ({ ...message, phoneNumber: "다시 확인해주세요" }));
           }
         })
         .catch(error);
@@ -324,14 +337,7 @@ const Signup = (props) => {
     <form>
       <div>
         <label>이메일</label>
-        <input
-          name="email"
-          type="text"
-          placeholder="이메일"
-          value={userRegistration.email}
-          onChange={handleInput}
-          onBlur={emailCheckBlur}
-        />
+        <input name="email" type="text" placeholder="이메일" value={userRegistration.email} onChange={handleInput} onBlur={emailCheckBlur} />
         <span>{message.email}</span>
       </div>
       <div>
@@ -362,14 +368,7 @@ const Signup = (props) => {
       </div>
       <div>
         <label>휴대폰 번호</label>
-        <input
-          name="phoneNumber"
-          type="text"
-          placeholder="휴대폰 번호"
-          maxLength="11"
-          value={userRegistration.phoneNumber}
-          onChange={handleInput}
-        />
+        <input name="phoneNumber" type="text" placeholder="휴대폰 번호" maxLength="11" value={userRegistration.phoneNumber} onChange={handleInput} />
         <button onClick={phoneNumberCheck}>인증번호 보내기</button>
         <input
           name="verificationCode"
