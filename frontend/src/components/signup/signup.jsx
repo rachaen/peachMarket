@@ -1,11 +1,13 @@
 /*global kakao*/
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import KakaoAddress from "./kakaoAddress";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const Signup = (props) => {
+  const navigate = useNavigate();
   const [userRegistration, setUserRegistration] = useState({
     userName: "",
     nickName: "",
@@ -132,8 +134,6 @@ const Signup = (props) => {
   // 회원가입
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(userRegistration);
-    console.log(error);
     if (!error.userName) {
       setMessage((message) => ({ ...message, signup: "이름을 확인해주세요" }));
       userNameRef.current.focus();
@@ -171,7 +171,6 @@ const Signup = (props) => {
       addressRef.current.focus();
       return;
     } else {
-      console.log("통과");
       axios
         .post(`${baseURL}/auth/signup`, {
           userName: userRegistration.userName,
@@ -188,6 +187,7 @@ const Signup = (props) => {
           if (result.status === 200) {
             if (result.data.result) {
               alert("회원가입 완료");
+              navigate("/login");
             }
           } else {
             alert("회원가입 실패");
