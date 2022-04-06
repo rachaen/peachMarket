@@ -1,6 +1,7 @@
 const express = require("express");
 const authService = require("../middlewares/auth/authService.js");
 const messageAuthentication = require("../middlewares/auth/messageAuthentication.js");
+const isAuth = require("../middlewares/auth/auth.js");
 
 const router = express.Router();
 
@@ -38,8 +39,18 @@ router.post("/getVerificationCode", messageAuthentication.sendVerificationSMS);
 router.post("/confirmVerificationCode", messageAuthentication.confirmSms);
 
 /**
- * 로그인 관련
+ * 로그인
  */
 router.post("/login", authService.login);
+
+/**
+ * 인증체크
+ */
+router.post("/me", authService.me);
+
+/**
+ * 로그아웃
+ */
+router.post("/me", isAuth, authService.me);
 
 module.exports = router;

@@ -35,6 +35,14 @@ const authRepository = {
         return result[0][0];
       });
   },
+
+  findById: async (id) => {
+    return db //
+      .execute("SELECT * FROM users WHERE userId=?", [id])
+      .then((result) => {
+        return result[0][0];
+      });
+  },
 };
 
 module.exports = authRepository;

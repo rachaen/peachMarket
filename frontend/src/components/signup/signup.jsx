@@ -1,10 +1,8 @@
-/*global kakao*/
+/* eslint-disable */
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import KakaoAddress from "./kakaoAddress";
-
-const baseURL = process.env.REACT_APP_BASE_URL;
 
 const Signup = (props) => {
   const navigate = useNavigate();
@@ -100,7 +98,7 @@ const Signup = (props) => {
         phoneNumber: true,
       }));
 
-      axios.get(`${baseURL}/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`).then((result) => {
+      axios.get(`/auth/phoneNumberDuplicateCheck?phoneNumber=${userRegistration.phoneNumber}`).then((result) => {
         if (result.status === 200) {
           if (result.data.result) {
             setError((error) => ({
@@ -109,7 +107,7 @@ const Signup = (props) => {
             }));
             setMessage({ ...message, phoneNumber: "인증 코드를 확인해주세요" });
             axios
-              .post(`${baseURL}/auth/getVerificationCode`, {
+              .post(`/auth/getVerificationCode`, {
                 phoneNumber: userRegistration.phoneNumber,
               })
               .catch(error);
@@ -172,7 +170,7 @@ const Signup = (props) => {
       return;
     } else {
       axios
-        .post(`${baseURL}/auth/signup`, {
+        .post(`/auth/signup`, {
           userName: userRegistration.userName,
           nickName: userRegistration.nickName,
           email: userRegistration.email,
@@ -248,7 +246,7 @@ const Signup = (props) => {
         ...error,
         email: true,
       }));
-      axios.get(`${baseURL}/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
+      axios.get(`/auth/emailDuplicateCheck?email=${userRegistration.email}`).then((result) => {
         if (result.status === 200) {
           if (result.data.result) {
             setError((error) => ({
@@ -379,7 +377,7 @@ const Signup = (props) => {
         nickName: true,
       }));
 
-      axios.get(`${baseURL}/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`).then((result) => {
+      axios.get(`/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`).then((result) => {
         if (result.status === 200) {
           if (result.data.result) {
             setError((error) => ({
@@ -404,7 +402,7 @@ const Signup = (props) => {
   const verificationCodeBlur = () => {
     if (error.phoneNumberDuplicate) {
       axios
-        .post(`${baseURL}/auth/confirmVerificationCode`, {
+        .post(`/auth/confirmVerificationCode`, {
           phoneNumber: userRegistration.phoneNumber,
           verificationCode: verificationCode,
         })

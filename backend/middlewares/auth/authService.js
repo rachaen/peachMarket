@@ -1,6 +1,7 @@
 const { v4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie-parser");
 
 const authRepository = require("./authRepository");
 const config = require("../../config/config.js");
@@ -78,7 +79,7 @@ const authService = {
     const { email, password } = req.body;
     const findUser = await authRepository.findByEmail(req.body.email);
     if (!findUser) {
-      res.status(401).josn({ result: false });
+      return res.status(401).json({ result: false });
     }
     const passwordCompareResult = await bcrypt.compare(password, findUser.password);
     if (!passwordCompareResult) {
@@ -89,6 +90,12 @@ const authService = {
     setToken(res, token);
     res.status(200).json({ token });
   },
+
+  me: async (req, res) => {
+    const findUser = await authRepository.fin;
+  },
+
+  logout: async (req, res) => {},
 };
 
 function setToken(res, token) {
@@ -96,7 +103,8 @@ function setToken(res, token) {
     maxAge: config.jwt.expiresInSec * 1000,
     httpOnly: true,
   };
-  res.cookie("token", token, options);
+
+  res.cookie("token", token);
 }
 
 function createJwtToken(userId) {
