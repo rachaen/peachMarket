@@ -18,6 +18,10 @@ const postService = {
     }
     const { postId, title, category, price, priceOffer, contents } = req.body;
     const createPostResult = await postRepository.createPost({ postId, userId, title, category, price, priceOffer, contents, imgPath, imgName });
+    if (!createPostResult) {
+      res.status(409).json({ result: false });
+    }
+    res.status(200).json({ result: true });
   },
 };
 
