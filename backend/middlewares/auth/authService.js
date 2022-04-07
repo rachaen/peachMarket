@@ -34,7 +34,7 @@ const authService = {
       longitude,
     });
     if (!signupResult) {
-      res.status(401).json({ result: false });
+      res.status(409).json({ result: false });
     }
     res.status(200).json({ result: true });
   },
@@ -45,9 +45,9 @@ const authService = {
   nickNameDuplicateCheck: async (req, res) => {
     const findByNickName = await authRepository.findByNickName(req.query.nickName);
     if (findByNickName) {
-      res.status(200).json({ result: false });
+      return res.status(409).json({ result: false });
     }
-    res.status(200).json({ result: true });
+    return res.status(200).json({ result: true });
   },
 
   /**
@@ -56,9 +56,9 @@ const authService = {
   emailDuplicateCheck: async (req, res) => {
     const findByEmail = await authRepository.findByEmail(req.query.email);
     if (findByEmail) {
-      res.status(200).json({ result: false });
+      return res.status(409).json({ result: false });
     }
-    res.status(200).json({ result: true });
+    return res.status(200).json({ result: true });
   },
 
   /**
@@ -67,9 +67,9 @@ const authService = {
   phoneNumberDuplicateCheck: async (req, res) => {
     const findByPhoneNumber = await authRepository.findPhoneNumber(req.query.phoneNumber);
     if (findByPhoneNumber) {
-      res.status(200).json({ result: false });
+      return res.status(409).json({ result: false });
     }
-    res.status(200).json({ result: true });
+    return res.status(200).json({ result: true });
   },
 
   /**

@@ -377,25 +377,32 @@ const Signup = (props) => {
         nickName: true,
       }));
 
-      axios.get(`/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`).then((result) => {
-        if (result.status === 200) {
-          if (result.data.result) {
-            setError((error) => ({
-              ...error,
-              nickNameDuplicate: true,
-            }));
-            setMessage((message) => ({ ...message, nickName: "사용가능한 닉네임입니다" }));
+      axios
+        .get(`/auth/nickNameDuplicateCheck?nickName=${userRegistration.nickName}`)
+        .then((result) => {
+          console.log(result);
+          if (result.status === 200) {
+            if (result.data.result) {
+              setError((error) => ({
+                ...error,
+                nickNameDuplicate: true,
+              }));
+              setMessage((message) => ({ ...message, nickName: "사용가능한 닉네임입니다" }));
+            } else {
+              setError((error) => ({
+                ...error,
+                nickNameDuplicate: false,
+              }));
+              setMessage((message) => ({ ...message, nickName: "이미 사용중인 닉네임입니다" }));
+            }
           } else {
-            setError((error) => ({
-              ...error,
-              nickNameDuplicate: false,
-            }));
-            setMessage((message) => ({ ...message, nickName: "이미 사용중인 닉네임입니다" }));
+            console.log("뭔가 잘못되었당");
           }
-        } else {
-          console.log("뭔가 잘못되었당");
-        }
-      });
+        })
+        .catch((error) => {
+          console.log(error.response.status);
+          console.log("중복실패");
+        });
     }
   };
 
@@ -429,7 +436,7 @@ const Signup = (props) => {
           type="text"
           placeholder="이름"
           value={userRegistration.userName}
-          onChange={handleInput}f
+          onChange={handleInput}
           onBlur={userNameBlur}
         />
         <span>{message.userName}</span>
