@@ -46,11 +46,10 @@ router.post("/login", authService.login);
 /**
  * 인증체크
  */
-router.post("/me", authService.me);
+router.get("/me", isAuth, authService.me);
 
 /**
  * 로그아웃
  */
-router.post("/me", isAuth, authService.me);
 
 module.exports = router;

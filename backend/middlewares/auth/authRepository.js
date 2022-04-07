@@ -38,7 +38,7 @@ const authRepository = {
 
   findById: async (id) => {
     return db //
-      .execute("SELECT * FROM users WHERE userId=?", [id])
+      .execute("SELECT userId, nickName FROM users WHERE userId=?", [id])
       .then((result) => {
         return result[0][0];
       });

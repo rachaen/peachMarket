@@ -1,9 +1,14 @@
-const NotFound = () => {
-  return (
-    <>
-      <h1>죄송합니다, 해당 페이지를 찾을 수 없어요</h1>
-    </>
-  );
+import { useSelector } from "react-redux";
+
+const NotFound = (props) => {
+  const userData = useSelector((state) => {
+    console.log(state.userReducer.userData);
+    return state.userReducer.userData;
+  });
+  {
+    console.log(userData);
+  }
+  return <>{userData && <div>hello</div>}</>;
 };
 
 export default NotFound;

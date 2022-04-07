@@ -429,7 +429,7 @@ const Signup = (props) => {
           type="text"
           placeholder="이름"
           value={userRegistration.userName}
-          onChange={handleInput}
+          onChange={handleInput}f
           onBlur={userNameBlur}
         />
         <span>{message.userName}</span>

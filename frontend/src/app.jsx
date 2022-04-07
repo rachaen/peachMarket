@@ -4,12 +4,13 @@ import Kakaomap from "./components/login/kakaomap";
 import Login from "./components/login/login";
 import NotFound from "./components/notFound";
 import Signup from "./components/signup/signup";
+import Auth from "./hoc/auth.js";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={Auth(<NotFound />, true)} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/kakaomap" element={<Kakaomap />} />
         <Route path="/login" element={<Login />} />

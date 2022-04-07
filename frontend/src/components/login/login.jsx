@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import styles from "./login.module.css";
-
-const baseURL = process.env.REACT_APP_BASE_URL;
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../_actions/user_Action";
 
 const Login = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -17,24 +19,17 @@ const Login = (props) => {
   };
 
   const onLoginHandler = () => {
-    console.log("hi");
     const body = {
       email: email,
       password: password,
     };
-    console.log(body);
-    axios
-      .post(`/auth/login`, body, { withCredentials: true, credentials: "include" })
-      .then((result) => {
-        console.log("hi3");
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("hi");
-      });
+
+    dispatch(loginUser(body)).then((response) => {
+      console.log(response);
+      if (response.payload.token) {
+        navigate("/");
+      }
+    });
   };
   return (
     <>

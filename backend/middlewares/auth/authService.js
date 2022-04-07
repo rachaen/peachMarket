@@ -92,7 +92,12 @@ const authService = {
   },
 
   me: async (req, res) => {
-    const findUser = await authRepository.fin;
+    const userId = req.userId;
+    const findUser = await authRepository.findById(userId);
+    if (!findUser) {
+      return res.status(401).json({ data: "로그인된 유저가 아닙니다" });
+    }
+    return res.status(200).json({ userInfo: findUser });
   },
 
   logout: async (req, res) => {},
