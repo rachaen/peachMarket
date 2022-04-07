@@ -1,8 +1,8 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../_actions/user_Action";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../_actions/user_Action';
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -27,14 +27,14 @@ const Login = (props) => {
     dispatch(loginUser(body)).then((response) => {
       console.log(response);
       if (response.payload.token) {
-        navigate("/");
+        navigate('/');
       }
     });
   };
   return (
     <>
       <input type="text" onChange={onEmailHandler} />
-      <input type="text" onChange={onPasswordHandler} />
+      <input type="password" onChange={onPasswordHandler} />
       <button onClick={onLoginHandler}>로그인</button>
     </>
   );

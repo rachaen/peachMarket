@@ -1,4 +1,4 @@
-const db = require("../../config/database.js");
+const db = require('../../config/database.js');
 
 const authRepository = {
   signup: async (user) => {
@@ -6,7 +6,7 @@ const authRepository = {
     const { userId, userName, nickName, email, password, phoneNumber, address, birthday, latitude, longitude } = user;
     return db
       .execute(
-        "INSERT INTO users (userId, userName, nickName, email, password, phoneNumber, address, birthday, latitude, longitude) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        'INSERT INTO users (userId, userName, nickName, email, password, phoneNumber, address, birthday, latitude, longitude) VALUES(?,?,?,?,?,?,?,?,?,?)',
         [userId, userName, nickName, email, password, phoneNumber, address, birthday, latitude, longitude]
       )
       .then((result) => {
@@ -14,7 +14,7 @@ const authRepository = {
       });
   },
   findByNickName: async (nickName) => {
-    db.execute("SELECT * FROM users WHERE nickName=?", [nickName]) //
+    db.execute('SELECT * FROM users WHERE nickName=?', [nickName]) //
       .then((result) => {
         return result[0][0];
       });
@@ -22,7 +22,7 @@ const authRepository = {
 
   findByEmail: async (email) => {
     return db //
-      .execute("SELECT * FROM users WHERE email=?", [email]) //
+      .execute('SELECT * FROM users WHERE email=?', [email]) //
       .then((result) => {
         return result[0][0];
       });
@@ -30,7 +30,7 @@ const authRepository = {
 
   findPhoneNumber: async (phoneNumber) => {
     return db //
-      .execute("SELECT * FROM users WHERE phoneNumber=?", [phoneNumber])
+      .execute('SELECT * FROM users WHERE phoneNumber=?', [phoneNumber])
       .then((result) => {
         return result[0][0];
       });
@@ -38,7 +38,7 @@ const authRepository = {
 
   findById: async (id) => {
     return db //
-      .execute("SELECT userId, nickName FROM users WHERE userId=?", [id])
+      .execute('SELECT userId, nickName FROM users WHERE userId=?', [id])
       .then((result) => {
         return result[0][0];
       });
