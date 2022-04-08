@@ -14,7 +14,8 @@ const authRepository = {
       });
   },
   findByNickName: async (nickName) => {
-    db.execute('SELECT * FROM users WHERE nickName=?', [nickName]) //
+    return db
+      .execute('SELECT * FROM users WHERE nickName=?', [nickName]) //
       .then((result) => {
         return result[0][0];
       });

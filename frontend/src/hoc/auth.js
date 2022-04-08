@@ -17,9 +17,8 @@ export default function (WrappedComponent, option, adminRoute = null) {
           }
         } else {
           if (option === false) {
-            navigate("/home");
+            navigate("/");
           }
-          //로그인 한 상태
         }
       });
     }, []);

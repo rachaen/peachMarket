@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const authRouter = require("./router/authRouter.js");
+const postRouter = require("./router/postRouter.js");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(cors(corsOption));
 
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 
 app.use((req, res, next) => {
   res.sendStatus(404);
