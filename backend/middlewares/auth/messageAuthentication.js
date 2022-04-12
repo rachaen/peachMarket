@@ -11,7 +11,7 @@ const messageAuthentication = {
       const phoneNumber = req.body.phoneNumber;
       const user = await authRepository.findPhoneNumber(phoneNumber);
       if (user) {
-        return res.status(200).json({ message: "이미 가입한 휴대폰 번호입니다." });
+        return res.status(409).json({ result: false });
       }
       Cache.del(phoneNumber);
       const date = Date.now().toString();
@@ -61,7 +61,7 @@ const messageAuthentication = {
       });
       return res.status(200).json({ result: true });
     } catch (error) {
-      return res.status(404).json({ result: false });
+      return res.status(409).json({ result: false });
     }
   },
   confirmSms: (req, res) => {
@@ -69,9 +69,9 @@ const messageAuthentication = {
     const CacheData = Cache.get(phoneNumber);
     console.log(CacheData);
     if (!CacheData) {
-      return res.status(200).json({ result: false });
+      return res.status(409).json({ result: false });
     } else if (CacheData != verificationCode) {
-      return res.status(200).json({ result: false });
+      return res.status(409).json({ result: false });
     } else {
       Cache.del(phoneNumber);
       return res.status(200).json({ result: true });

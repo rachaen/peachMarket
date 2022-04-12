@@ -1,10 +1,12 @@
 const { v4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 const cookie = require("cookie-parser");
 
-const authRepository = require("./authRepository");
+const authRepository = require("./authRepository.js");
 const config = require("../../config/config.js");
+const redisClient = require("../../config/redis.js");
 
 const authService = {
   /**
@@ -18,7 +20,7 @@ const authService = {
     const findByEmail = await authRepository.findByEmail(email);
     const findPhoneNumber = await authRepository.findPhoneNumber(phoneNumber);
     if (findByEmail && findNickName && findPhoneNumber) {
-      res.status(409).json({ message: "회원 가입에 실패했습니다. 중복체크를 다시 확인해주세요" });
+      res.status(409).json({ result: false });
     }
     const hashed = await bcrypt.hash(password, config.bcrypt.saltRounds);
     const signupResult = await authRepository.signup({
@@ -72,10 +74,22 @@ const authService = {
     return res.status(200).json({ result: true });
   },
 
+  me: async (req, res) => {
+    const userId = req.userId;
+    const findUser = await authRepository.findById(userId);
+    if (!findUser) {
+      return res.status(401).json({ data: "로그인된 유저가 아닙니다" });
+    }
+    return res.status(200).json({ userInfo: findUser });
+  },
+
+  logout: async (req, res) => {},
+
   /**
    * 로그인
    */
   login: async (req, res) => {
+    const refreshTokenId = v4();
     const { email, password } = req.body;
     const findUser = await authRepository.findByEmail(req.body.email);
     if (!findUser) {
@@ -87,20 +101,14 @@ const authService = {
     }
 
     const token = createJwtToken(findUser.userId);
+    const refreshToken = createRefreshToken();
+    if (!redisClient.isOpen)
+      redisClient.connect().then((result) => {
+        redisClient.set(refreshTokenId, refreshToken);
+      });
     setToken(res, token);
-    res.status(200).json({ token });
+    res.status(200).json({ token: token, refreshTokenId: refreshToken });
   },
-
-  me: async (req, res) => {
-    const userId = req.userId;
-    const findUser = await authRepository.findById(userId);
-    if (!findUser) {
-      return res.status(401).json({ data: "로그인된 유저가 아닙니다" });
-    }
-    return res.status(200).json({ userInfo: findUser });
-  },
-
-  logout: async (req, res) => {},
 };
 
 function setToken(res, token) {
@@ -114,6 +122,10 @@ function setToken(res, token) {
 
 function createJwtToken(userId) {
   return jwt.sign({ userId }, config.jwt.secretKey, { expiresIn: config.jwt.expiresInSec });
+}
+
+function createRefreshToken() {
+  return jwt.sign({}, config.jwt.secretKey, { expiresIn: config.jwt.expiresInSec });
 }
 
 module.exports = authService;

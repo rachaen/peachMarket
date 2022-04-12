@@ -3,7 +3,8 @@ import { LOGIN_USER, AUTH_USER } from "./types";
 
 export const loginUser = (dataToSubmit) => {
   const request = axios.post("/auth/login", dataToSubmit).then((response) => {
-    console.log(response);
+    let sessionSotrage = window.sessionStorage;
+    sessionSotrage.setItem("refreshTokenId", response.data.refreshTokenId);
     return response.data;
   });
 

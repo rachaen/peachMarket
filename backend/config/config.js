@@ -30,6 +30,9 @@ const config = {
     secretKey: required("JWT_SECRET"),
     expiresInSec: required("JWT_EXPIRES_SEC", 864000),
   },
+  redis: {
+    port: required("REDIS_PORT"),
+  },
 };
 
 module.exports = config;

@@ -9,8 +9,6 @@ export default function (WrappedComponent, option, adminRoute = null) {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.log(response);
-        console.log(option);
         if (!response.payload) {
           if (option) {
             navigate("/login");
