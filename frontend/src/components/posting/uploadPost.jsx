@@ -39,12 +39,12 @@ const UploadePost = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(postTextItems);
     if (postTextItems.title === '' || postTextItems.category === '' || postTextItems.contents === '') {
       alert('제목, 카테고리, 내용은 필수 입니다');
     } else {
       // 이미지 파일
       postImages?.map((eachfile) => {
-        console.log(eachfile);
         return formData.append('img', eachfile);
       });
       // postTextItems

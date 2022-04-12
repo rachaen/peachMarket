@@ -47,7 +47,7 @@ const Content = ({ getContent }) => {
           </option>
         ))}
       </select>
-      <input name="price" placeholder="가격(선택사항)" />
+      <input name="price" placeholder="가격(선택사항)" onChange={handlePriceOffer} />
       <label>
         <input name="priceOffer" type="checkbox" onChange={handlePriceOffer} />
         가격제안받기
