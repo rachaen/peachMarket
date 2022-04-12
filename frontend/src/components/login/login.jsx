@@ -1,9 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../_actions/user_Action";
-import { Route, Link } from "react-router-dom";
-import axios from "axios";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -39,9 +38,8 @@ const Login = (props) => {
   return (
     <>
       <input type="text" onChange={onEmailHandler} />
-      <input type="text" onChange={onPasswordHandler} />
+      <input type="password" onChange={onPasswordHandler} />
       <button onClick={onLoginHandler}>로그인</button>
-      <a href={kakaourl}>aa</a>
     </>
   );
 };
