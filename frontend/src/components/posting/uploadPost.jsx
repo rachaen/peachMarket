@@ -44,19 +44,15 @@ const UploadePost = (props) => {
     } else {
       // 이미지 파일
       postImages?.map((eachfile) => {
-        return formData.append('json', JSON.stringify({ img: eachfile }));
+        console.log(eachfile);
+        return formData.append('img', eachfile);
       });
       // postTextItems
-      formData.append(
-        'json',
-        JSON.stringify({
-          title: postTextItems.title,
-          category: postTextItems.category,
-          price: postTextItems.price,
-          priceOffer: postTextItems.priceOffer,
-          contents: postTextItems.contents,
-        })
-      );
+      formData.append('title', postTextItems.title);
+      formData.append('category', postTextItems.category);
+      formData.append('price', postTextItems.price);
+      formData.append('priceOffer', postTextItems.priceOffer);
+      formData.append('contents', postTextItems.contents);
       await axios({
         method: 'post',
         url: '/post/createPost',
