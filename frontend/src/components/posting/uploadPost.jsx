@@ -7,8 +7,8 @@ import * as resize from './resize.js';
 
 const UploadePost = (props) => {
   const navigate = useNavigate();
-  const [postImages, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
-  const [detailImages, setDetailImages] = useState([]); // 프리뷰 보여줄 이미지 데이터
+  const [imageList, setImageList] = useState([]); //{id, file, url};
+
   const [postTextItems, setPostTextItems] = useState({
     title: '',
     category: '',
@@ -20,34 +20,37 @@ const UploadePost = (props) => {
 
   const uploadFile = async (event) => {
     let fileArr = event.target.files; //  사용자가 선택한 파일들
-    let postImagesLength = postImages.length;
+    let imageListLength = imageList.length;
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개
-    if (postImagesLength + filesLength > 10) {
+    if (imageListLength + filesLength > 10) {
       alert('이미지는 10장을 초과할 수 없습니다.');
       return;
     }
+
     // resize해서 파일 처리하기
     for (let i = 0; i < filesLength; i++) {
-      let newFile = await resize.handleFileOnChange(fileArr[i]);
-      let newFileURL = await resize.handleUrlOnChange(newFile);
-      setPostImages((file) => [...file, newFile]);
-      setDetailImages((url) => [...url, newFileURL]);
+      let newImage = await resize.handleResize(fileArr[i]);
+      setImageList((imageList) => [...imageList, newImage]);
     }
+    event.target.value = '';
   };
 
   const getContent = (key, value) => {
     setPostTextItems((item) => ({ ...item, [key]: value }));
   };
 
+  const getImageList = (newImageList) => {
+    setImageList(newImageList);
+  };
+
   const handleSubmit = async (event) => {
-    event.preventDefault();
     if (postTextItems.title === '' || postTextItems.category === '' || postTextItems.contents === '') {
       alert('제목, 카테고리, 내용은 필수 입니다');
       return;
     } else {
       // 이미지 파일
-      postImages?.map((eachfile) => {
-        return formData.append('img', eachfile);
+      imageList?.map((eachfile) => {
+        return formData.append('img', eachfile.file);
       });
       // postTextItems
       formData.append('title', postTextItems.title);
@@ -77,7 +80,7 @@ const UploadePost = (props) => {
     <>
       <input id="upload-file" type="file" accept="image/*" multiple onChange={uploadFile}></input>
       <label htmlFor="upload-file">파일선택</label>
-      <Images detailImages={detailImages} />
+      <Images imageList={imageList} getImageList={getImageList} />
       <Content getContent={getContent} />
       <button type="submit" onClick={handleSubmit}>
         제출하기

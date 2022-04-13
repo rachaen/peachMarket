@@ -84,7 +84,7 @@ const Content = ({ getContent }) => {
       </select>
       <input name="price" type="text" placeholder="가격(선택사항)" onKeyUp={handlePrice} />
       <div>
-        <label for="priceOffer" ref={priceOfferLabelRef}>
+        <label htmlFor="priceOffer" ref={priceOfferLabelRef}>
           가격제안받기
         </label>
         <input
