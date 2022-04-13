@@ -25,4 +25,4 @@ const handleUrlOnChange = async (compressedFile) => {
     console.log(error);
   }
 };
-export { handleFileOnChange, handleUrlOnChange, handleResize };
+export { handleResize };

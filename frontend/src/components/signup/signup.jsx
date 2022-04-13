@@ -436,8 +436,9 @@ const Signup = (props) => {
   return (
     <form>
       <div>
-        <label>이름</label>
+        <label htmlFor="userName">이름</label>
         <input
+          id="userName"
           ref={userNameRef}
           name="userName"
           type="text"
@@ -449,8 +450,9 @@ const Signup = (props) => {
         <span>{message.userName}</span>
       </div>
       <div>
-        <label>이메일</label>
+        <label htmlFor="email">이메일</label>
         <input
+          id="email"
           ref={emailRef}
           name="email"
           type="text"
@@ -462,8 +464,9 @@ const Signup = (props) => {
         <span>{message.email}</span>
       </div>
       <div>
-        <label>비밀번호</label>
+        <label htmlFor="password">비밀번호</label>
         <input
+          id="password"
           ref={passwordRef}
           name="password"
           type="password"
@@ -476,8 +479,9 @@ const Signup = (props) => {
         <span>{message.password}</span>
       </div>
       <div>
-        <label>비밀번호 확인</label>
+        <label htmlFor="password2">비밀번호 확인</label>
         <input
+          id="password2"
           ref={password2Ref}
           name="password2"
           type="password"
@@ -490,8 +494,9 @@ const Signup = (props) => {
         <span>{message.password2}</span>
       </div>
       <div>
-        <label>휴대폰 번호</label>
+        <label htmlFor="phoneNumber">휴대폰 번호</label>
         <input
+          id="phoneNumber"
           ref={phoneNumberRef}
           name="phoneNumber"
           type="text"
@@ -513,8 +518,9 @@ const Signup = (props) => {
         <span>{message.phoneNumber}</span>
       </div>
       <div>
-        <label>생년월일</label>
+        <label htmlFor="birthday">생년월일</label>
         <input
+          id="birthday"
           ref={birthdayRef}
           name="birthday"
           type="text"
@@ -527,8 +533,9 @@ const Signup = (props) => {
         <span>{message.birthday}</span>
       </div>
       <div>
-        <label>닉네임</label>
+        <label htmlFor="nickName">닉네임</label>
         <input
+          id="nickName"
           ref={nickNameRef}
           name="nickName"
           type="text"
@@ -541,8 +548,15 @@ const Signup = (props) => {
         <span>{message.nickName}</span>
       </div>
       <div>
-        <label>주소</label>
-        <input name="address" type="text" placeholder="주소" value={userRegistration.address} onChange={handleInput} />
+        <label htmlFor="address">주소</label>
+        <input
+          id="address"
+          name="address"
+          type="text"
+          placeholder="주소"
+          value={userRegistration.address}
+          onChange={handleInput}
+        />
       </div>
       <button
         ref={addressRef}
