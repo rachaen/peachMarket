@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Kakaomap from './components/login/kakaomap';
 import Login from './components/login/login';
 import NotFound from './components/notFound';
-import UploadePost from './components/posting/uploadPost';
+import UploadPost from './components/posting/uploadPost';
 import Signup from './components/signup/signup';
 import Auth from './hoc/auth.js';
 
@@ -15,7 +15,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/kakaomap" element={<Kakaomap />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/posting" element={Auth(<UploadePost />, true)} />
+        <Route path="/posting" element={Auth(<UploadPost />, true)} />
       </Routes>
     </BrowserRouter>
   );

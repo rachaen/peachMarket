@@ -21,6 +21,7 @@ const Content = ({ getContent }) => {
     '삽니다',
   ];
 
+  const priceRef = useRef(null);
   const priceOfferRef = useRef(null);
   const priceOfferLabelRef = useRef(null);
 
@@ -29,38 +30,60 @@ const Content = ({ getContent }) => {
   };
 
   const handlePrice = (event) => {
-    const keyCode = event.keyCode;
-    let value = event.target.value;
-    if (value === '0') {
-      priceOfferLabelRef.current.innerText = '나눔 이벤트 열기';
-    } else {
-      priceOfferLabelRef.current.innerText = '가격제안받기';
-    }
-    const isValid =
-      (keyCode >= 48 && keyCode <= 57) || // Numbers
-      keyCode === 8; // BackSpace
-
-    if (!isValid) {
-      event.target.value = value.slice(0, -1);
+    if (
+      (event.keyCode > 47 && event.keyCode < 57) ||
+      event.keyCode === 8 || //backspace
+      event.keyCode === 37 ||
+      event.keyCode === 39 || //방향키 →, ←
+      event.keyCode === 46 //delete키
+    ) {
       return;
     } else {
+      event.preventDefault();
+    }
+  };
+
+  const priceModify = (event) => {
+    let data = event.nativeEvent.data;
+    let value = priceRef.current.value;
+    if (value === '') {
+      priceOfferRef.current.disabled = true;
+      getContent('price', 'false');
+      return;
+    } else if (value === '0') {
+      priceOfferLabelRef.current.innerText = '나눔 이벤트 열기';
+      priceRef.current.disabled = true;
+      priceRef.current.value = '나눔';
+      priceOfferRef.current.disabled = false;
+      priceOfferRef.current.checked = true;
+      getContent('price', 'giveaway');
+      getContent('priceOffer', 'true');
+      return;
+    } else {
+      priceOfferRef.current.disabled = false;
+    }
+    if (data >= 0 && data <= 9) {
       let onlyNumber = Number(value.replaceAll(',', ''));
       const formatValue = onlyNumber.toLocaleString('ko-KR');
-      if (formatValue === '0' && keyCode === 8) {
-        event.target.value = '';
-        getContent('price', 'false');
-        priceOfferRef.current.checked = false;
-        priceOfferRef.current.disabled = true;
-        return;
-      }
       getContent('price', onlyNumber);
-      event.target.value = formatValue;
-      priceOfferRef.current.disabled = false;
-      return;
+      priceRef.current.value = formatValue;
+    } else {
+      let priceExp = /^[,0-9]/g;
+      if (priceExp.test(value)) {
+        const formatValue = value.replaceAll(/[^,0-9]/g, '');
+        priceRef.current.value = formatValue;
+      }
     }
   };
 
   const handlePriceOffer = (event) => {
+    if (priceRef.current.value === '나눔' && !event.target.checked) {
+      priceRef.current.disabled = false;
+      priceRef.current.value = '';
+      priceOfferLabelRef.current.innerText = '가격제안받기';
+      priceOfferRef.current.disabled = true;
+      getContent('price', 'false');
+    }
     getContent('priceOffer', event.target.checked);
   };
 
@@ -82,7 +105,15 @@ const Content = ({ getContent }) => {
           </option>
         ))}
       </select>
-      <input name="price" type="text" placeholder="가격(선택사항)" onKeyUp={handlePrice} />
+      <input
+        ref={priceRef}
+        name="price"
+        type="text"
+        placeholder="가격(선택사항)"
+        maxLength="12"
+        onKeyDown={handlePrice}
+        onChange={priceModify}
+      />
       <div>
         <label htmlFor="priceOffer" ref={priceOfferLabelRef}>
           가격제안받기

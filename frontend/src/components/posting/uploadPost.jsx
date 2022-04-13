@@ -5,7 +5,7 @@ import Content from './content';
 import Images from './images';
 import * as resize from './resize.js';
 
-const UploadePost = (props) => {
+const UploadPost = (props) => {
   const navigate = useNavigate();
   const [imageList, setImageList] = useState([]); //{id, file, url};
 
@@ -89,4 +89,4 @@ const UploadePost = (props) => {
   );
 };
 
-export default UploadePost;
+export default UploadPost;
