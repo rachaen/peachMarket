@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 const Content = ({ getContent }) => {
   const categoryList = [
@@ -21,8 +21,43 @@ const Content = ({ getContent }) => {
     '삽니다',
   ];
 
+  const priceOfferRef = useRef(null);
+  const priceOfferLabelRef = useRef(null);
+
   const handleSelect = (event) => {
     getContent('category', event.target.value);
+  };
+
+  const handlePrice = (event) => {
+    const keyCode = event.keyCode;
+    let value = event.target.value;
+    if (value === '0') {
+      priceOfferLabelRef.current.innerText = '나눔 이벤트 열기';
+    } else {
+      priceOfferLabelRef.current.innerText = '가격제안받기';
+    }
+    const isValid =
+      (keyCode >= 48 && keyCode <= 57) || // Numbers
+      keyCode === 8; // BackSpace
+
+    if (!isValid) {
+      event.target.value = value.slice(0, -1);
+      return;
+    } else {
+      let onlyNumber = Number(value.replaceAll(',', ''));
+      const formatValue = onlyNumber.toLocaleString('ko-KR');
+      if (formatValue === '0' && keyCode === 8) {
+        event.target.value = '';
+        getContent('price', 'false');
+        priceOfferRef.current.checked = false;
+        priceOfferRef.current.disabled = true;
+        return;
+      }
+      getContent('price', onlyNumber);
+      event.target.value = formatValue;
+      priceOfferRef.current.disabled = false;
+      return;
+    }
   };
 
   const handlePriceOffer = (event) => {
@@ -47,11 +82,21 @@ const Content = ({ getContent }) => {
           </option>
         ))}
       </select>
-      <input name="price" placeholder="가격(선택사항)" onChange={handlePriceOffer} />
-      <label>
-        <input name="priceOffer" type="checkbox" onChange={handlePriceOffer} />
-        가격제안받기
-      </label>
+      <input name="price" type="text" placeholder="가격(선택사항)" onKeyUp={handlePrice} />
+      <div>
+        <label for="priceOffer" ref={priceOfferLabelRef}>
+          가격제안받기
+        </label>
+        <input
+          disabled
+          ref={priceOfferRef}
+          id="priceOffer"
+          name="priceOffer"
+          type="checkbox"
+          onChange={handlePriceOffer}
+        />
+      </div>
+
       <textarea
         name="contents"
         onBlur={inputBlur}
