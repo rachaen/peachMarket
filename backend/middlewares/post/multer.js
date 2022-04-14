@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { v4 } = require("uuid");
-const postId = v4();
+let postId = v4();
 
 const postsUpload = multer({
   storage: multer.diskStorage({
@@ -29,4 +29,10 @@ const postsUpload = multer({
   }),
 });
 
+function modifyUUid() {
+  postId = v4();
+  return;
+}
+
 module.exports.postsUpload = postsUpload;
+module.exports.modifyUUid = modifyUUid;

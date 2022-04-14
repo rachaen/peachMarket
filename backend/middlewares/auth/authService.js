@@ -1,12 +1,12 @@
-const { v4 } = require("uuid");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const axios = require("axios");
-const cookie = require("cookie-parser");
+const { v4 } = require('uuid');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const cookie = require('cookie-parser');
 
-const authRepository = require("./authRepository.js");
-const config = require("../../config/config.js");
-const redisClient = require("../../config/redis.js");
+const authRepository = require('./authRepository.js');
+const config = require('../../config/config.js');
+// const redisClient = require("../../config/redis.js");
 
 const authService = {
   /**
@@ -78,7 +78,7 @@ const authService = {
     const userId = req.userId;
     const findUser = await authRepository.findById(userId);
     if (!findUser) {
-      return res.status(401).json({ data: "로그인된 유저가 아닙니다" });
+      return res.status(401).json({ data: '로그인된 유저가 아닙니다' });
     }
     return res.status(200).json({ userInfo: findUser });
   },
@@ -97,15 +97,15 @@ const authService = {
     }
     const passwordCompareResult = await bcrypt.compare(password, findUser.password);
     if (!passwordCompareResult) {
-      return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요" });
+      return res.status(401).json({ message: '아이디 또는 비밀번호를 확인하세요' });
     }
 
     const token = createJwtToken(findUser.userId);
     const refreshToken = createRefreshToken();
-    if (!redisClient.isOpen)
+    /*     if (!redisClient.isOpen)
       redisClient.connect().then((result) => {
         redisClient.set(refreshTokenId, refreshToken);
-      });
+      }); */
     setToken(res, token);
     res.status(200).json({ token: token, refreshTokenId: refreshToken });
   },
@@ -117,7 +117,7 @@ function setToken(res, token) {
     httpOnly: true,
   };
 
-  res.cookie("token", token);
+  res.cookie('token', token);
 }
 
 function createJwtToken(userId) {
