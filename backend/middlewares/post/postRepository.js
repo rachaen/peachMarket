@@ -2,8 +2,8 @@ const db = require("../../config/database.js");
 
 const postRepository = {
   createPost: async (post) => {
-    const { postId, userId, title, category, price, priceOffer, contents, imgPath, imgName } = post;
-    if (imgPath === "" || imgName === "") {
+    const { postId, userId, title, category, price, priceOffer, contents, path } = post;
+    if (path === "") {
       return db
         .execute("INSERT INTO post (postId, userId, title, category, price, priceOffer, contents) VALUES(?,?,?,?,?,?,?)", [
           postId,
@@ -19,7 +19,7 @@ const postRepository = {
         });
     }
     return db
-      .execute("INSERT INTO post (postId, userId, title, category, price, priceOffer, contents, imgPath, imgName) VALUES(?,?,?,?,?,?,?,?,?)", [
+      .execute("INSERT INTO post (postId, userId, title, category, price, priceOffer, contents, imgPath) VALUES(?,?,?,?,?,?,?,?)", [
         postId,
         userId,
         title,
@@ -27,8 +27,7 @@ const postRepository = {
         price,
         priceOffer,
         contents,
-        imgPath,
-        imgName,
+        path,
       ])
       .then((result) => {
         return result;
@@ -36,7 +35,7 @@ const postRepository = {
   },
 
   getPosts: async () => {
-    return db.execute("SELECT postId, title, price, imgPath, imgName FROM post").then((result) => {
+    return db.execute("SELECT userId ,postId, title, price, imgPath FROM post").then((result) => {
       return result[0];
     });
   },
