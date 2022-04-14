@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const authRouter = require("./router/authRouter.js");
 const postRouter = require("./router/postRouter.js");
 
 const app = express();
+app.use("/public", express.static(path.join(__dirname + "/public")));
 
 const corsOption = {
   origin: true,

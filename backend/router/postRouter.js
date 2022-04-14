@@ -11,4 +11,6 @@ const router = express.Router();
  */
 router.post("/createPost", isAuth, upload.postsUpload.array("img"), postService.createPost);
 
+router.get("/getPosts", postService.getPosts);
+
 module.exports = router;
