@@ -35,7 +35,7 @@ const postRepository = {
   },
 
   getPosts: async () => {
-    return db.execute("SELECT postId, title, price, imgPath FROM post").then((result) => {
+    return db.execute("SELECT userId ,postId, title, price, imgPath FROM post").then((result) => {
       return result[0];
     });
   },
