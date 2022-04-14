@@ -3,7 +3,21 @@ const db = require("../../config/database.js");
 const postRepository = {
   createPost: async (post) => {
     const { postId, userId, title, category, price, priceOffer, contents, imgPath, imgName } = post;
-
+    if (imgPath === "" || imgName === "") {
+      return db
+        .execute("INSERT INTO post (postId, userId, title, category, price, priceOffer, contents) VALUES(?,?,?,?,?,?,?)", [
+          postId,
+          userId,
+          title,
+          category,
+          price,
+          priceOffer,
+          contents,
+        ])
+        .then((result) => {
+          return result;
+        });
+    }
     return db
       .execute("INSERT INTO post (postId, userId, title, category, price, priceOffer, contents, imgPath, imgName) VALUES(?,?,?,?,?,?,?,?,?)", [
         postId,

@@ -68,9 +68,10 @@ const Home = (props) => {
                     왼쪽화살표
                   </label>
                   <div className="carosel" ref={(el) => (slideRef.current[i] = el)}>
-                    {data.imgName.map((data) => {
-                      return <img src={`${BASEURL}${data}`} key={data} className="grid__img" />;
-                    })}
+                    {data.imgName &&
+                      data.imgName.map((data) => {
+                        return <img src={`${BASEURL}${data}`} key={data} className="grid__img" />;
+                      })}
                   </div>
                   <label className="right" onClick={() => test2(data.postId, i)}>
                     오른쪽화살표
