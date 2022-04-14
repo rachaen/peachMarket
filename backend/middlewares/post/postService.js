@@ -54,6 +54,20 @@ const postService = {
     }
     res.status(200).json({ result });
   },
+
+  getDetailPost: async (req, res) => {
+    const postId = req.query.postId;
+    const result = await postRepository.getDetailPost(postId);
+    if (!result) {
+      return res.status(409).json({ result: false });
+    }
+    if (result.imgPath) {
+      const imgNameArray = result.imgPath.split(",");
+      result.imgPath = imgNameArray;
+      result.currentSlide = 0;
+    }
+    res.status(200).json({ result });
+  },
 };
 
 module.exports = postService;

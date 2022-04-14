@@ -39,6 +39,12 @@ const postRepository = {
       return result[0];
     });
   },
+
+  getDetailPost: async (postId) => {
+    return db.execute(`SELECT * FROM post where postId="${postId}"`).then((result) => {
+      return result[0][0];
+    });
+  },
 };
 
 module.exports = postRepository;

@@ -13,4 +13,6 @@ router.post("/createPost", isAuth, upload.postsUpload.array("img"), postService.
 
 router.get("/getPosts", postService.getPosts);
 
+router.get("/getDetailPost", postService.getDetailPost);
+
 module.exports = router;
