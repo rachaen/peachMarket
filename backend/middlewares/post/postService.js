@@ -5,21 +5,21 @@ const { v4 } = require("uuid");
 
 const postService = {
   createPost: async (req, res) => {
-    let imgName = "";
-    let imgPath = "";
+    let path = "";
     const file = req.files;
     if (file.length > 0) {
       imgPath = file[0].destination.split("public/uploads")[1];
     } else {
       req.body.postId = v4();
     }
+
     const userId = req.userId;
     //imgName concat ,
     for (let i = 0; i < file.length; i++) {
       if (i == file.length - 1) {
-        imgName += `${imgPath}/${file[i].filename}`;
+        path += `${imgPath}/${file[i].filename}`;
       } else {
-        imgName += `${imgPath}/${file[i].filename},`;
+        path += `${imgPath}/${file[i].filename},`;
       }
     }
     const { postId, title, category, price, priceOffer, contents } = req.body;
@@ -31,8 +31,7 @@ const postService = {
       price,
       priceOffer,
       contents,
-      imgPath,
-      imgName,
+      path,
     });
     if (!createPostResult) {
       return res.status(409).json({ result: false });
@@ -43,9 +42,10 @@ const postService = {
   getPosts: async (req, res) => {
     const result = await postRepository.getPosts();
     for (let i = 0; i < result.length; i++) {
-      if (result[i].imgName) {
-        const imgNameArray = result[i].imgName.split(",");
-        result[i].imgName = imgNameArray;
+      if (result[i].imgPath) {
+        const imgNameArray = result[i].imgPath.split(",");
+        console.log(imgNameArray);
+        result[i].imgPath = imgNameArray;
         result[i].currentSlide = 0;
       }
     }

@@ -24,7 +24,7 @@ const Home = (props) => {
     if (findIndex != -1) {
       currentSlide = copyArray[findIndex].currentSlide;
       if (currentSlide === 0) {
-        currentSlide = copyArray[findIndex].imgName.length - 1;
+        currentSlide = copyArray[findIndex].imgPath.length - 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: currentSlide };
       } else {
         currentSlide = currentSlide - 1;
@@ -44,7 +44,7 @@ const Home = (props) => {
       currentSlide = copyArray[findIndex].currentSlide;
       console.log(currentSlide);
 
-      if (currentSlide >= copyArray[findIndex].imgName.length - 1) {
+      if (currentSlide >= copyArray[findIndex].imgPath.length - 1) {
         currentSlide = 0;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: currentSlide };
       } else {
@@ -68,8 +68,8 @@ const Home = (props) => {
                     왼쪽화살표
                   </label>
                   <div className="carosel" ref={(el) => (slideRef.current[i] = el)}>
-                    {data.imgName &&
-                      data.imgName.map((data) => {
+                    {data.imgPath &&
+                      data.imgPath.map((data) => {
                         return <img src={`${BASEURL}${data}`} key={data} className="grid__img" />;
                       })}
                   </div>
