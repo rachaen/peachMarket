@@ -31,7 +31,7 @@ const Content = ({ getContent }) => {
 
   const handlePrice = (event) => {
     if (
-      (event.keyCode > 47 && event.keyCode < 57) ||
+      (event.keyCode > 47 && event.keyCode < 58) ||
       event.keyCode === 8 || //backspace
       event.keyCode === 37 ||
       event.keyCode === 39 || //방향키 →, ←
@@ -47,8 +47,10 @@ const Content = ({ getContent }) => {
     let data = event.nativeEvent.data;
     let value = priceRef.current.value;
     if (value === '') {
+      priceOfferRef.current.checked = false;
       priceOfferRef.current.disabled = true;
       getContent('price', 'false');
+      getContent('priceOffer', 'false');
       return;
     } else if (value === '0') {
       priceOfferLabelRef.current.innerText = '나눔 이벤트 열기';
@@ -69,7 +71,7 @@ const Content = ({ getContent }) => {
       priceRef.current.value = formatValue;
     } else {
       let priceExp = /^[,0-9]/g;
-      if (priceExp.test(value)) {
+      if (!priceExp.test(data)) {
         const formatValue = value.replaceAll(/[^,0-9]/g, '');
         priceRef.current.value = formatValue;
       }
@@ -105,16 +107,17 @@ const Content = ({ getContent }) => {
           </option>
         ))}
       </select>
-      <input
-        ref={priceRef}
-        name="price"
-        type="text"
-        placeholder="가격(선택사항)"
-        maxLength="12"
-        onKeyDown={handlePrice}
-        onChange={priceModify}
-      />
+
       <div>
+        <input
+          ref={priceRef}
+          name="price"
+          type="text"
+          placeholder="가격(선택사항)"
+          maxLength="12"
+          onKeyDown={handlePrice}
+          onChange={priceModify}
+        />
         <label htmlFor="priceOffer" ref={priceOfferLabelRef}>
           가격제안받기
         </label>
