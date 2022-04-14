@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 const { v4 } = require("uuid");
 const postId = v4();
-console.log(postId);
 
 const postsUpload = multer({
   storage: multer.diskStorage({

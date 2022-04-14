@@ -1,4 +1,4 @@
-import imageCompression from 'browser-image-compression';
+import imageCompression from "browser-image-compression";
 const handleResize = async (file) => {
   const newFile = await handleFileOnChange(file);
   const newUrl = await handleUrlOnChange(newFile);
