@@ -1,16 +1,18 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import "./home.css";
+import './home.css';
 
 const Home = (props) => {
-  const BASEURL = "http://localhost:8080/public/uploads";
+  const navigate = useNavigate();
+  const BASEURL = 'http://localhost:8080/public/uploads';
   const slideRef = useRef([]);
   const [postData, setPostData] = useState();
   const [imgData, setImgData] = useState();
 
   useEffect(() => {
-    axios.get("/post/getPosts").then((result) => {
+    axios.get('/post/getPosts').then((result) => {
       setPostData(result.data.result);
     });
   }, []);
@@ -30,7 +32,7 @@ const Home = (props) => {
         currentSlide = currentSlide - 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide - 1 };
       }
-      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
+      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
@@ -51,10 +53,14 @@ const Home = (props) => {
         currentSlide = currentSlide + 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide + 1 };
       }
-      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
+      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
+  };
+
+  const goToArticle = (postId) => {
+    return navigate(`/articles/${postId}`);
   };
   return (
     <>
@@ -62,7 +68,7 @@ const Home = (props) => {
         {postData &&
           postData.map((data, i) => {
             return (
-              <article key={data.postId}>
+              <article key={data.postId} onClick={() => goToArticle(data.postId)}>
                 <div className="window">
                   <label className="left" onClick={() => test(data.postId, i)}>
                     왼쪽화살표
@@ -115,7 +121,10 @@ const Home = (props) => {
         <article>
           <div className="text">
             <h3>Completely Synergize</h3>
-            <p>Dramatically engage seamlessly visualize quality intellectual capital without superior collaboration and idea-sharing.</p>
+            <p>
+              Dramatically engage seamlessly visualize quality intellectual capital without superior collaboration and
+              idea-sharing.
+            </p>
             <button>Here's how</button>
           </div>
         </article>
