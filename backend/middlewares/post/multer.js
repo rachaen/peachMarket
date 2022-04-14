@@ -1,9 +1,8 @@
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
-const { v4 } = require("uuid");
-const postId = v4();
-console.log(postId);
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const { v4 } = require('uuid');
+let postId = v4();
 
 const postsUpload = multer({
   storage: multer.diskStorage({
@@ -24,10 +23,16 @@ const postsUpload = multer({
       const baseName = path.basename(file.originalname, path.extname(file.originalname));
 
       //db에서 이미지이름 저장 분류를 , 로 하기위해 파일이름에 , 있는것을 1로변경
-      const fileName = baseName.replaceAll(",", "1");
+      const fileName = baseName.replaceAll(',', '1');
       cb(null, path.basename(fileName, ext) + Date.now() + ext);
     },
   }),
 });
 
+function modifyUUid() {
+  postId = v4();
+  return;
+}
+
 module.exports.postsUpload = postsUpload;
+module.exports.modifyUUid = modifyUUid;
