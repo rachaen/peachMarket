@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const config = require("../../config/config.js");
 const postRepository = require("./postRepository.js");
 const multer = require("./multer.js");
@@ -44,7 +47,6 @@ const postService = {
     for (let i = 0; i < result.length; i++) {
       if (result[i].imgPath) {
         const imgNameArray = result[i].imgPath.split(",");
-        console.log(imgNameArray);
         result[i].imgPath = imgNameArray;
         result[i].currentSlide = 0;
       }
@@ -68,6 +70,74 @@ const postService = {
     }
     res.status(200).json({ result });
   },
+
+  deletePost: async (req, res) => {
+    const postId = req.query.postId;
+    const result = await postRepository.getDetailPost(postId);
+  },
+
+  modifyPost: async (req, res) => {
+    const deleteImage = req.body.deleteImage;
+    const imgFiles = req.files;
+    if (imgFiles || deleteImage) {
+      const PATH = "public/uploads/images";
+      const postId = req.body.postId;
+      const imgDirPATH = `${PATH}${path.sep}${postId}`;
+      const directoryExists = fs.existsSync(imgDirPATH);
+
+      //파일 존재 안하면 오류
+      if (!directoryExists) {
+        return res.status(409).json({ result: false });
+      }
+
+      //기존에 있던 이미지 배열 반환
+      const imgArr = getImgName(imgDirPATH);
+      if (deleteImage) {
+        if (typeof deleteImage === Object) {
+          const newImgPath = deleteImage.filter((data) => {
+            fs.unlinkSync(`${imgDirPATH}${path.sep}${data}`);
+            imgArr.map((test) => {
+              return test !== data;
+            });
+          });
+          if (getImgName(imgDirPATH).length === 0) {
+            fs.rmdirSync(`${imgDirPATH}`);
+          }
+        } else {
+          fs.unlinkSync(`${imgDirPATH}${path.sep}${deleteImage}`);
+          const imgFile = getImgName(imgDirPATH);
+          if (!imgFile) {
+            fs.rmdirSync(`${imgDirPATH}`);
+          }
+        }
+      }
+
+      const imgPath = getImgName(imgDirPATH);
+      if (imgPath) {
+        let data = "";
+        if (typeof imgPath === Object) {
+          imgPath.map((data) => {
+            data += `${imgDirPATH}${path.sep}${data},`;
+          });
+        } else {
+          data += `${imgDirPATH}${path.sep}${imgPath}`;
+        }
+        console.log(data);
+      } else {
+      }
+    }
+  },
+};
+
+const getImgName = (imgDirPATH) => {
+  if (!imgDirPATH) {
+    return;
+  }
+  const imgFile = fs.readdirSync(imgDirPATH);
+  if (imgFile) {
+    return imgFile;
+  }
+  return imgFile;
 };
 
 module.exports = postService;
