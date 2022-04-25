@@ -1,0 +1,11 @@
+.modal {
+  height: 100px;
+  width: 100px;
+  background: transparent url('./spinner.gif') 50% 50% no-repeat;
+  border: 0.1em black solid;
+  border-radius: 1em;
+}
+
+.visible {
+  display: none;
+}

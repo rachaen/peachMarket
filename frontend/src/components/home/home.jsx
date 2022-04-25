@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AxiosConfig from '../loading/axiosConfig';
 
 import './home.css';
 
@@ -10,8 +11,9 @@ const Home = (props) => {
   const slideRef = useRef([]);
   const [postData, setPostData] = useState();
   const [imgData, setImgData] = useState();
-
+  let axiosConfig = new AxiosConfig();
   useEffect(() => {
+    axiosConfig.initInterceptor();
     axios.get('/post/getPosts').then((result) => {
       setPostData(result.data.result);
     });
