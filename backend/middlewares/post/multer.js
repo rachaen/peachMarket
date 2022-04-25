@@ -7,8 +7,10 @@ let postId = v4();
 const postsUpload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      console.log(file);
-      req.body.postId = postId;
+      if (!req.body.postId) {
+        req.body.postId = postId;
+      }
+      postId = req.body.postId;
       if (!fs.existsSync(`public/uploads/images/${postId}`)) {
         fs.mkdirSync(`public/uploads/images/${postId}`);
       }

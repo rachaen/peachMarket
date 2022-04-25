@@ -15,7 +15,6 @@ export const loginUser = (dataToSubmit) => {
 };
 
 export const auth = () => {
-  console.log("실행");
   const request = axios
     .get("/auth/me")
     .then((response) => {
