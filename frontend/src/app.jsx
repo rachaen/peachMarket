@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/header/header";
 import Home from "./components/home/home";
 import Kakaomap from "./components/login/kakaomap";
 import Login from "./components/login/login";
@@ -13,11 +14,20 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="*" element={Auth(<NotFound />, true)} />
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <>
+                <Header />
+                <Home />
+              </>
+            </>
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/kakaomap" element={<Kakaomap />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/posting" element={Auth(<UploadPost />, true)} />
       </Routes>
     </BrowserRouter>
   );

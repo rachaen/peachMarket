@@ -1,0 +1,17 @@
+.arrow {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  z-index: 1;
+  height: 230px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrow > div:hover {
+  cursor: pointer;
+}
+
+.arrow__left {
+  margin-left: 2%;
+}

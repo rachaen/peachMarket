@@ -2,6 +2,7 @@ const db = require("../../config/database.js");
 
 const postRepository = {
   createPost: async (post) => {
+    console.log(post);
     const { postId, userId, title, category, price, priceOffer, contents, path } = post;
     if (path === "") {
       return db
@@ -35,7 +36,7 @@ const postRepository = {
   },
 
   getPosts: async () => {
-    return db.execute("SELECT userId ,postId, title, price, imgPath FROM post").then((result) => {
+    return db.execute("SELECT userId ,postId, title, price, regDate, imgPath FROM post").then((result) => {
       return result[0];
     });
   },

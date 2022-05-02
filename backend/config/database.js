@@ -6,6 +6,7 @@ const pool = mysql.createPool({
   user: config.db.user,
   database: config.db.database,
   password: config.db.password,
+  dateStrings: "date",
 });
 const db = pool.promise();
 
