@@ -11,6 +11,7 @@ import UploadPost from './components/posting/uploadPost';
 import Signup from './components/signup/signup';
 import Auth from './hoc/auth.js';
 import { createStore } from 'redux';
+import ModifyArticle from './components/modifyArticle/modifyArticle';
 
 function App() {
   let store = createStore(reducer);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/posting" element={Auth(<UploadPost />, true)} />
           <Route path="/articles/:postId" element={<Articles />} />
+          <Route path="/modifyArticle/:postId" element={<ModifyArticle />} />
         </Routes>
       </BrowserRouter>
     </>
