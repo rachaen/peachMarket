@@ -10,7 +10,8 @@ const Header = () => {
       <header>
         <div className="inner">
           <a href="/" className="logo">
-            <img src="./images/1-removebg-preview.png" alt="STARBUCKS" />
+            <img src="./peachMarket2.PNG" alt="PEACH MARKET" />
+            <img src="./여기어때.PNG" alt="PEACH MARKET" />
           </a>
 
           <div className="sub-menu">

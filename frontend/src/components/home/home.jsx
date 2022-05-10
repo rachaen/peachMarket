@@ -21,7 +21,7 @@ const Home = (props) => {
 
   const test = (postId, i) => {
     let copyArray = [...postData];
-    const findIndex = postData.findIndex((data) => data.postId == postId);
+    const findIndex = postData.findIndex((data) => data.postId === postId);
     let currentSlide;
     if (findIndex != -1) {
       currentSlide = copyArray[findIndex].currentSlide;

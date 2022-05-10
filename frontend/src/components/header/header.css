@@ -40,8 +40,8 @@ header .logo {
   margin: auto;
 }
 
-header .logo > img {
-  width: 55px;
+header .logo img {
+  width: 100px;
   display: inline;
 }
 
