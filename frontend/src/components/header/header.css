@@ -1,0 +1,221 @@
+/* COMMON */
+img {
+  display: block;
+}
+body {
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4; /* 줄간격 */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.inner {
+  width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* HEADER */
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #c8c8c8;
+  z-index: 1;
+}
+
+header > .inner {
+  height: 130px;
+}
+
+header .logo {
+  position: absolute;
+  height: 75px;
+  top: 10px;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+header .logo > img {
+  width: 55px;
+  display: inline;
+}
+
+header .sub-menu {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  display: flex;
+}
+
+header .sub-menu ul.menu {
+  font-family: Arial, sans-serif;
+  display: flex;
+}
+
+header .sub-menu ul.menu li {
+  position: relative;
+}
+
+header .sub-menu ul.menu li::before {
+  content: "";
+  width: 1px;
+  height: 12px;
+  background-color: #e5e5e5;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+}
+
+header .sub-menu ul.menu li:first-child:before {
+  display: none;
+}
+
+header .sub-menu ul.menu li a {
+  font-size: 12px;
+  padding: 11px 16px;
+  display: block;
+  color: #656565;
+}
+
+header .sub-menu ul.menu li a:hover {
+  /* color: #000; */
+  color: red;
+}
+
+/* MAIN MENU */
+header .main-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+}
+
+header .main-menu .item {
+}
+
+header .main-menu .item .item__name {
+  padding: 10px 20px 0px 20px;
+  /* font-size: 13px; */
+}
+
+header .main-menu .item:hover .item__name {
+  color: red;
+  transition: 0.2s;
+  transform: scale(1.1);
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
+}
+
+header .main-menu .item .item__contents {
+  width: 100%;
+  display: none;
+  position: fixed;
+  left: 0;
+}
+
+header .main-menu .item:hover .item__contents {
+  display: block;
+}
+
+header .main-menu .item .item__contents .contents__menu {
+  background-color: #fff;
+}
+
+header .main-menu .item .item__contents .contents__menu > div {
+  display: flex;
+  padding: 20px 0;
+}
+
+header .main-menu .item .item__contents .contents__menu > div > ul {
+  width: 220px;
+}
+
+header .main-menu .item .item__contents .contents__menu > div > ul li {
+  padding: 5px 0;
+  font-size: 16px;
+  color: rgb(13, 13, 13);
+  cursor: pointer;
+}
+
+header .main-menu .item .item__contents .contents__menu > .inner > ul li:hover {
+  color: rgb(254, 96, 76);
+  font-weight: 600;
+}
+
+/* header .main-menu .item .item__contents .contents__texture {
+  background: orange;
+  height: 100px;
+} */
+
+/* MAIN-MEUN-RIGHT */
+
+header .main-menu-right {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  right: 0;
+}
+
+header .main-menu-right .item .item__name {
+  padding: 10px 20px 0px 20px;
+  /* font-size: 13px; */
+}
+
+/* MAin-MENU-CENTER */
+header .main-menu-center {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  left: 0;
+  right: 0;
+  width: 100px;
+  margin: auto;
+}
+
+header .main-menu-center .search {
+  font-size: 13px;
+  padding: 4px 20px 0px 20px;
+}
+
+header .main-menu-center .search {
+  height: 34px;
+  position: relative;
+}
+
+header .main-menu-center .search input {
+  width: 230px;
+  height: 30px;
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 5px 5px 5px 5px;
+  outline: none;
+  background-color: #fff;
+  color: #777;
+  /* font-size: 12px; */
+}
+
+header .main-menu-center .search input:focus {
+  border-color: #669900;
+}
+
+header .main-menu-center .search .material-icons {
+  height: 24px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transition: 0.4s;
+  left: 225px;
+}
+
+header .main-menu-center .search.focused .material-icons {
+  opacity: 0;
+}

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment");
 
 const config = require("../../config/config.js");
 const postRepository = require("./postRepository.js");
@@ -49,6 +50,22 @@ const postService = {
         const imgNameArray = result[i].imgPath.split(",");
         result[i].imgPath = imgNameArray;
         result[i].currentSlide = 0;
+      }
+      const nowDate = moment();
+      const regDate = result[i].regDate;
+
+      //시간 차이 구하기
+      const minute = moment.duration(nowDate.diff(regDate)).asMinutes();
+      if (minute < 60) {
+        result[i].regDate = Math.ceil(minute) + "분전";
+      } else {
+        const hour = moment.duration(nowDate.diff(regDate)).asHours();
+        if (hour < 24) {
+          result[i].regDate = Math.ceil(hour) + "시간전";
+        } else {
+          console.log(moment.duration(nowDate.diff(regDate)).asDays);
+          result[i].regDate = Math.ceil(moment.duration(nowDate.diff(regDate)).asDays()) + "일전";
+        }
       }
     }
     if (!result) {
@@ -122,7 +139,6 @@ const postService = {
         } else {
           data += `${imgDirPATH}${path.sep}${imgPath}`;
         }
-        console.log(data);
       } else {
       }
     }

@@ -4,6 +4,8 @@ body {
 }
 .grid {
   display: grid;
+  z-index: -1;
+
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 20px;
   align-items: stretch;
@@ -52,4 +54,75 @@ body {
   top: 50%;
   right: 10px;
   background-color: wheat;
+}
+
+.grid {
+  width: 1400px;
+  margin-top: 50px;
+  margin: 50px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 25px;
+  align-items: stretch;
+}
+.grid > section {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+  height: 440px;
+  border-radius: 20px;
+}
+.grid > section img {
+  width: 100%;
+  max-width: 100%;
+  height: 230px;
+  border-radius: 20px 20px 0 0;
+}
+.text {
+  height: 125px;
+  padding: 30px 20px 20px 20px;
+}
+
+.text h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.good {
+  height: 35px;
+  padding: 0 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 
+  carosel
+*/
+#slider-container-outer {
+  overflow: hidden;
+  position: relative;
+}
+
+#slider-container-outer .good .material-icons {
+  display: flex;
+}
+
+#slider-container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* CSS transition applied when translation of items happen */
+.slider-container-transition {
+  transition: transform 0.7s ease-in-out;
+}
+
+.slider-container-transition img:hover {
+  opacity: 0.7;
+}
+
+.slider-item {
+  width: 300px;
+  flex-shrink: 0;
 }

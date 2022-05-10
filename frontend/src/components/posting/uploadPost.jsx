@@ -16,6 +16,7 @@ const UploadPost = (props) => {
     priceOffer: false,
     contents: '',
   }); // 서버로 보낼 text데이터
+
   const formData = new FormData();
 
   const uploadFile = async (event) => {

@@ -12,6 +12,7 @@ import Signup from './components/signup/signup';
 import Auth from './hoc/auth.js';
 import { createStore } from 'redux';
 import ModifyArticle from './components/modifyArticle/modifyArticle';
+import Header from './components/header/header';
 
 function App() {
   let store = createStore(reducer);
@@ -22,7 +23,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={Auth(<NotFound />, true)} />
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header /> <Home />
+              </>
+            }
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/kakaomap" element={<Kakaomap />} />
           <Route path="/login" element={<Login />} />

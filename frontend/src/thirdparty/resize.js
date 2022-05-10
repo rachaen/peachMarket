@@ -27,6 +27,7 @@ const handleFileOnChange = async (file) => {
 const handleUrlOnChange = async (compressedFile) => {
   try {
     const url = await imageCompression.getDataUrlFromFile(compressedFile);
+    console.log(url);
     return url;
   } catch (error) {
     console.log(error);
