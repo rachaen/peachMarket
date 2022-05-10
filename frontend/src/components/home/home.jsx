@@ -3,16 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Carousel from "../header/Carousel";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
-import "./home.css";
+import './home.css';
 
 const Home = (props) => {
-  const BASEURL = "http://localhost:8080/public/uploads";
+  const navigate = useNavigate();
+  const BASEURL = 'http://localhost:8080/public/uploads';
   const slideRef = useRef([]);
   const [postData, setPostData] = useState();
   const [imgData, setImgData] = useState();
-
+  let axiosConfig = new AxiosConfig();
   useEffect(() => {
-    axios.get("/post/getPosts").then((result) => {
+    axiosConfig.initInterceptor();
+    axios.get('/post/getPosts').then((result) => {
       setPostData(result.data.result);
     });
   }, []);
@@ -32,7 +34,7 @@ const Home = (props) => {
         currentSlide = currentSlide - 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide - 1 };
       }
-      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
+      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
@@ -51,10 +53,14 @@ const Home = (props) => {
         currentSlide = currentSlide + 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide + 1 };
       }
-      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
+      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
+  };
+
+  const goToArticle = (postId) => {
+    return navigate(`/articles/${postId}`);
   };
   return (
     <>

@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -12,25 +12,27 @@ function required(key, defaultValue = undefined) {
 
 const config = {
   db: {
-    host: required("DB_HOST"),
-    user: required("DB_USER"),
-    database: required("DB_DATABASE"),
-    password: required("DB_PASSWORD"),
+    host: required('DB_HOST'),
+    user: required('DB_USER'),
+    database: required('DB_DATABASE'),
+    password: required('DB_PASSWORD'),
   },
   bcrypt: {
     saltRounds: 12,
   },
   sens: {
-    accessKey: required("SENS_ACCESS"),
-    secretKey: required("SENS_SECRET"),
-    serviceId: required("SENS_ID"),
-    callNumber: required("SENS_NUMBER"),
+    accessKey: required('SENS_ACCESS'),
+    secretKey: required('SENS_SECRET'),
+    serviceId: required('SENS_ID'),
+    callNumber: required('SENS_NUMBER'),
   },
   jwt: {
-    secretKey: required("JWT_SECRET"),
-    expiresInSec: required("JWT_EXPIRES_SEC", 864000),
+    secretKey: required('JWT_SECRET'),
+    expiresInSec: required('JWT_EXPIRES_SEC', 864000),
   },
-
+  /*   redis: {
+    port: required("REDIS_PORT"),
+  }, */
 };
 
 module.exports = config;

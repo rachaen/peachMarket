@@ -1,9 +1,9 @@
-// import axios from "axios";
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Content from "./content";
-// import Images from "./images";
-// import * as resize from "./resize.js";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Content from './content';
+import Images from './images';
+import * as resize from '../../thirdparty/resize.js';
 
 // const UploadPost = (props) => {
 //   const navigate = useNavigate();

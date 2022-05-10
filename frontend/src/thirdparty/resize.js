@@ -1,9 +1,16 @@
-import imageCompression from "browser-image-compression";
-const handleResize = async (file) => {
+import imageCompression from 'browser-image-compression';
+/* const handleResize = async (file) => {
   const newFile = await handleFileOnChange(file);
   const newUrl = await handleUrlOnChange(newFile);
   return { file: newFile, id: newFile.lastModified, url: newUrl };
+}; */
+
+const handleResize = async (file) => {
+  const newFile = await handleFileOnChange(file);
+  const newUrl = await handleUrlOnChange(newFile);
+  return { file: newFile, url: newUrl };
 };
+
 const handleFileOnChange = async (file) => {
   const options = { maxSizeMB: 1, maxWidthOrHeight: 560 };
   try {
