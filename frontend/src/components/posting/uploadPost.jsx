@@ -50,8 +50,8 @@ const UploadPost = (props) => {
       return;
     } else {
       // 이미지 파일
-      imageList?.map((eachfile) => {
-        return formData.append('img', eachfile.file);
+      imageList.map((eachfile) => {
+        formData.append('img', eachfile.file);
       });
       // postTextItems
       formData.append('title', postTextItems.title);

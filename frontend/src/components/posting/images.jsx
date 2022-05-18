@@ -1,6 +1,6 @@
 import React from 'react';
-
-/* const Images = ({ imageList, getImageList }) => {
+/* 
+const Images = ({ imageList, getImageList }) => {
   const removeImage = (id) => {
     let newList = imageList.filter((image) => image.id !== id);
     getImageList(newList);
