@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Content from './content';
-import Images from './images';
-import * as resize from '../../thirdparty/resize.js';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Content from "./content";
+import Images from "./images";
+import * as resize from "../../thirdparty/resize.js";
+import axios from "axios";
 
 const ModifyArticle = (props) => {
   const location = useLocation();
@@ -27,7 +27,7 @@ const ModifyArticle = (props) => {
     let imageListLength = imageList.length;
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개
     if (imageListLength + filesLength > 10) {
-      alert('이미지는 10장을 초과할 수 없습니다.');
+      alert("이미지는 10장을 초과할 수 없습니다.");
       return;
     }
 
@@ -36,7 +36,7 @@ const ModifyArticle = (props) => {
       let newImage = await resize.handleResize(fileArr[i]);
       setImageList((imageList) => [...imageList, newImage]);
     }
-    event.target.value = '';
+    event.target.value = "";
   };
 
   const getImageList = (newImageList) => {

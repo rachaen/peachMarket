@@ -1,20 +1,20 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Content from './content';
-import Images from './images';
-import * as resize from '../../thirdparty/resize.js';
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Content from "./content";
+import Images from "./images";
+import * as resize from "../../thirdparty/resize.js";
 
 const UploadPost = (props) => {
   const navigate = useNavigate();
   const [imageList, setImageList] = useState([]); //{id, file, url};
 
   const [postTextItems, setPostTextItems] = useState({
-    title: '',
-    category: '',
+    title: "",
+    category: "",
     price: false,
     priceOffer: false,
-    contents: '',
+    contents: "",
   }); // 서버로 보낼 text데이터
 
   const formData = new FormData();
@@ -24,7 +24,7 @@ const UploadPost = (props) => {
     let imageListLength = imageList.length;
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개
     if (imageListLength + filesLength > 10) {
-      alert('이미지는 10장을 초과할 수 없습니다.');
+      alert("이미지는 10장을 초과할 수 없습니다.");
       return;
     }
 
@@ -33,7 +33,7 @@ const UploadPost = (props) => {
       let newImage = await resize.handleResize(fileArr[i]);
       setImageList((imageList) => [...imageList, newImage]);
     }
-    event.target.value = '';
+    event.target.value = "";
   };
 
   const getContent = (key, value) => {
@@ -45,32 +45,32 @@ const UploadPost = (props) => {
   };
 
   const handleSubmit = async (event) => {
-    if (postTextItems.title === '' || postTextItems.category === '' || postTextItems.contents === '') {
-      alert('제목, 카테고리, 내용은 필수 입니다');
+    if (postTextItems.title === "" || postTextItems.category === "" || postTextItems.contents === "") {
+      alert("제목, 카테고리, 내용은 필수 입니다");
       return;
     } else {
       // 이미지 파일
       imageList?.map((eachfile) => {
-        formData.append('img', eachfile.file);
+        formData.append("img", eachfile.file);
       });
       // postTextItems
-      formData.append('title', postTextItems.title);
-      formData.append('category', postTextItems.category);
-      formData.append('price', postTextItems.price);
-      formData.append('priceOffer', postTextItems.priceOffer);
-      formData.append('contents', postTextItems.contents);
+      formData.append("title", postTextItems.title);
+      formData.append("category", postTextItems.category);
+      formData.append("price", postTextItems.price);
+      formData.append("priceOffer", postTextItems.priceOffer);
+      formData.append("contents", postTextItems.contents);
       await axios({
-        method: 'post',
-        url: '/post/createPost',
+        method: "post",
+        url: "/post/createPost",
         data: formData,
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { "Content-Type": "multipart/form-data" },
       })
         .then((result) => {
           if (result.status === 200) {
-            alert('작성 완료');
-            navigate('/');
+            alert("작성 완료");
+            navigate("/");
           } else {
-            alert('작성 실패');
+            alert("작성 실패");
           }
         })
         .catch((error) => console.log(error));

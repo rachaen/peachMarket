@@ -1,22 +1,22 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
-import Carousel from '../header/Carousel';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import Carousel from "../header/Carousel";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
-import './home.css';
-import { useNavigate } from 'react-router-dom';
-import AxiosConfig from '../loading/axiosConfig';
+import "./home.css";
+import { useNavigate } from "react-router-dom";
+import AxiosConfig from "../loading/axiosConfig";
 
 const Home = (props) => {
   const navigate = useNavigate();
-  const BASEURL = 'http://localhost:8080/public/uploads';
+  const BASEURL = "http://localhost:8080/public/uploads";
   const slideRef = useRef([]);
   const [postData, setPostData] = useState();
   const [imgData, setImgData] = useState();
   let axiosConfig = new AxiosConfig();
   useEffect(() => {
     axiosConfig.initInterceptor();
-    axios.get('/post/getPosts').then((result) => {
+    axios.get("/post/getPosts").then((result) => {
       setPostData(result.data.result);
     });
   }, []);
@@ -36,7 +36,7 @@ const Home = (props) => {
         currentSlide = currentSlide - 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide - 1 };
       }
-      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
+      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
@@ -55,7 +55,7 @@ const Home = (props) => {
         currentSlide = currentSlide + 1;
         copyArray[findIndex] = { ...copyArray[findIndex], currentSlide: copyArray[findIndex].currentSlide + 1 };
       }
-      slideRef.current[i].style.transition = 'all 0.5s ease-in-out';
+      slideRef.current[i].style.transition = "all 0.5s ease-in-out";
       slideRef.current[i].style.transform = `translateX(-${currentSlide}00%)`;
       setPostData(copyArray);
     }
@@ -70,7 +70,7 @@ const Home = (props) => {
         {postData &&
           postData.map((data, i) => {
             return (
-              <section id="slider-container-outer" key={data.postId}>
+              <section id="slider-container-outer" key={data.postId} onClick={() => goToArticle(data.postId)}>
                 <Carousel data={data.imgPath} id={data.postId} test={test} test2={test2} i={i} slideRef={slideRef} />
                 <div className="text">
                   <h3>{data.title}</h3>

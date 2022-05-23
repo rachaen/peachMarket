@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { createStore } from 'redux';
-import reducer from '../../_reducers/index';
-import ArticlesTemp from './articlesTemp';
-import AxiosConfig from '../loading/axiosConfig';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { createStore } from "redux";
+import reducer from "../../_reducers/index";
+import ArticlesTemp from "./articlesTemp";
+import AxiosConfig from "../loading/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const Articles = () => {
   const navigate = useNavigate();
@@ -14,34 +14,35 @@ const Articles = () => {
   let axiosConfig = new AxiosConfig();
 
   const [postItems, setPostItems] = useState({
-    category: '',
-    contents: '',
-    currentSlide: '',
-    imgPath: '',
-    likeCount: '',
+    category: "",
+    contents: "",
+    currentSlide: "",
+    imgPath: "",
+    likeCount: "",
     postId: postId,
-    price: '',
-    priceOffer: '',
-    regDate: '',
-    state: '',
-    title: '',
-    userId: '',
-    viewCount: '',
+    price: "",
+    priceOffer: "",
+    regDate: "",
+    state: "",
+    title: "",
+    userId: "",
+    viewCount: "",
   });
 
   useEffect(() => {
     // store.dispatch({ type: 'visibleSpinner', containerName: 'articles' });
-    store.dispatch({ type: 'visibleSpinner' });
+    store.dispatch({ type: "visibleSpinner" });
     console.log(store.getState());
     axiosConfig.initInterceptor();
     axios
       .get(`/post/getDetailPost?postId=${postId}`)
       .then((result) => {
         let data = result.data.result;
-        console.log(data);
         if (result.status === 200) {
           setPostItems((item) => ({
             ...item,
+            nickName: data.nickName,
+            address: data.address,
             category: data.category,
             contents: data.contents,
             currentSlide: data.currentSlide,
@@ -71,7 +72,7 @@ const Articles = () => {
   };
   return (
     <>
-      <ArticlesTemp postId={postId} />
+      <ArticlesTemp postItems={postItems} />
       <button onClick={handleModify}>수정하기</button>
     </>
   );
