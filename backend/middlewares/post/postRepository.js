@@ -42,13 +42,9 @@ const postRepository = {
   },
 
   getDetailPost: async (postId) => {
-    return db
-      .execute(
-        `SELECT users.userName, users.address, users.nickName ,post.postId, post.title, post.category, post.price, post.priceOffer, post.contents, post.regDate, post.imgPath FROM post join users on users.userId = post.userId where postId="${postId}"`
-      )
-      .then((result) => {
-        return result[0][0];
-      });
+    return db.execute(`SELECT * FROM post where postId="${postId}"`).then((result) => {
+      return result[0][0];
+    });
   },
 };
 
